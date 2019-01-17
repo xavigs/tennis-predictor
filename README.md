@@ -1,7 +1,7 @@
 The Beast
 =================
 
-[![Build Status](https://travis-ci.org/xavigs/the-beast.svg?branch=master)](https://travis-ci.org/xavigs/the-beast) ![](https://img.shields.io/pypi/pyversions/pyt.svg) [![license: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) ![](https://img.shields.io/github/repo-size/xavigs/the-beast.svg?colorB=orange)
+[![Build Status](https://travis-ci.org/xavigs/the-beast.svg?branch=master)](https://travis-ci.org/xavigs/the-beast) ![](https://img.shields.io/github/last-commit/xavigs/the-beast.svg) [![license: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![](https://img.shields.io/github/repo-size/xavigs/the-beast.svg?colorB=orange)
 
 Big Data application to analyse tennis games and predict future events.
 

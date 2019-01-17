@@ -1,9 +1,11 @@
 import pytest
+from fib import fibR
 
-from mypkg.fibonacci import fibonacci
+def test_fib_1_equals_1():
+    assert fibR(1) == 1
 
-def test_fib_10():
-	assert(fibonacci(10) == 55)
+def test_fib_2_equals_1():
+    assert fibR(2) == 1
 
-def test_fib_not_20():
-	assert(fibonacci(20) != 20)
+def test_fib_6_equals_8():
+    assert fibR(6) == 8

@@ -1,6 +1,8 @@
 The Beast
 =================
 
+[![Coverage Status](https://coveralls.io/repos/github/xavigs/the-beast/badge.svg?branch=master)](https://coveralls.io/github/xavigs/the-beast?branch=master)
+
 Big Data application to analyse tennis games and predict future events.
 
 * [1. Features](#block1)
@@ -25,8 +27,8 @@ Big Data application to analyse tennis games and predict future events.
 
 - Cassandra (Storage the data)
 - Python
-  - BeautifulSoup library (Crawlers)
-  - NumPy (Neural Networks)
+  - BeautifulSoup library *(Crawlers)*
+  - NumPy *(Neural Networks)*
 
 ---
 

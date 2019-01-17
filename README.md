@@ -1,7 +1,7 @@
 The Beast
 =================
 
-[![Coverage Status](https://coveralls.io/repos/github/xavigs/the-beast/badge.svg?branch=master)](https://coveralls.io/github/xavigs/the-beast?branch=master)
+[![Build Status](https://travis-ci.org/xavigs/the-beast.svg?branch=master)]
 
 Big Data application to analyse tennis games and predict future events.
 

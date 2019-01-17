@@ -7,7 +7,8 @@ Big Data application to analyse tennis games and predict future events.
 
 * [1. Features](#block1)
 * [2. Technologies](#block2)
-* [3. Author](#block3)
+* [3. License](#block3)
+* [4. Author](#block4)
 
 ---
 
@@ -33,7 +34,15 @@ Big Data application to analyse tennis games and predict future events.
 ---
 
 <a name="block3"></a>
-## 3. Author
+## 3. License
+MIT License
+
+Copyright (c) 2019 Xavi Garcia i Sunyer
+
+---
+
+<a name="block4"></a>
+## 4. Author
 Xavi Garcia i Sunyer
  - <xaviergs1984@gmail.com>
  - https://www.linkedin.com/in/xavi-garcia-i-sunyer-12039520/

@@ -1,12 +1,21 @@
+# This project has python as the main language
 language: python
 
+# Run things with both these version of Python
 python:
   - "2.7"
   - "3.4"
 
-before_install:
-  - pip install pytest-cov
-  - cd python
+# Don't send email notifications for everything...
+notifications:
+  email: false
 
+# We get a bare virtual machine
+# We need to install our dependencies
+install:
+  - pip install numpy
+  - pip install pytest
+
+# Run the tests
 script:
-  - py.test -v --cov=maths
+  - py.test

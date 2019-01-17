@@ -14,7 +14,7 @@ Big Data application to analyse tennis games and predict future events.
 
 - Player and game data from ATP World Tour and Tennis Explorer.
 - Crawlers to get all data.
-- Analysis the data from 2013 to 2017.
+- Data analysis from 2013 to 2017.
 - Neural networks to analyse and predict.
 - Advanced stake management from several parameters.
 

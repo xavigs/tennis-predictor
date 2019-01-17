@@ -1,7 +1,7 @@
 The Beast
 =================
 
-[![Build Status](https://travis-ci.org/xavigs/the-beast.svg?branch=master)]
+[![Build Status](https://travis-ci.org/xavigs/the-beast.svg?branch=master)](https://travis-ci.org/xavigs/the-beast)
 
 Big Data application to analyse tennis games and predict future events.
 

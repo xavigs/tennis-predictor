@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 from cassandra.cluster import Cluster
 import argparse
 from operator import attrgetter
@@ -39,12 +33,12 @@ for date in dates:
     query = "SELECT * FROM " + table + " WHERE " + field + " = '" + date + "'"
     rows = session.execute(query)
     count = 0
-    
+
     for row in rows:
         count += 1
-        
+
     print(date + ": " + str(count))
-    
+
 exit()
 '''
 query = "SELECT * FROM " + table
@@ -52,8 +46,7 @@ rows = session.execute(query)
 sorted_rows = sorted(rows, key=attrgetter(field))
 print("Valor mínim de " + field + ": " + str(getattr(sorted_rows[0],field)))
 print("Valor màxim de " + field + ": " + str(getattr(sorted_rows[len(sorted_rows) - 1],field)))
-    
+
 # Close connections
 session.shutdown()
 cluster.shutdown()
-

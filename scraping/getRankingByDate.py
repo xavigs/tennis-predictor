@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[67]:
-
-
 from cassandra.cluster import Cluster
 from bs4 import BeautifulSoup
 import requests
@@ -32,7 +26,7 @@ def search_td(matrix, key1, value1, key2, value2):
     for index, dictionary in enumerate(matrix):
         if dictionary[key1] == value1 and dictionary[key2] == value2:
             return index
-    
+
     return -1
 
 # Dates
@@ -95,4 +89,3 @@ for player_db in players_db:
 # Close connections
 session.shutdown()
 cluster.shutdown()
-

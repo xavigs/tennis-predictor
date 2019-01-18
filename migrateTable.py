@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 from cassandra.cluster import Cluster
 import argparse
 from datetime import datetime, timedelta
@@ -62,4 +56,3 @@ for row in rows:
 # Close connections
 session.shutdown()
 cluster.shutdown()
-

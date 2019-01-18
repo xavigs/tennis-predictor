@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[5]:
-
-
 from cassandra.cluster import Cluster
 from bs4 import BeautifulSoup
 import requests
@@ -22,7 +16,7 @@ cluster = Cluster(["127.0.0.1"])
 session = cluster.connect("beast")
 query = "SELECT * FROM tournament WHERE tournament_season = " + season
 tournaments = session.execute(query)
-    
+
 # Close connections
 session.shutdown()
 cluster.shutdown()
@@ -34,7 +28,6 @@ for tournament in tournaments:
     r = requests.get(url)
     data = r.text
     soup = BeautifulSoup(data, "html.parser")
-    
+
     for game in list(soup.select("table.result"))[0].select("tr[id^=r]"):
         print("Partit")
-

@@ -47,7 +47,10 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 0:
+    if country.text.strip() and index == 1:
+        # Print country title
+        print(Back.YELLOW + Fore.BLACK + Style.BRIGHT + "\n  GERMAN PLAYERS  ")
+        print(Style.RESET_ALL)
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:

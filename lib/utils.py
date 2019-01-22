@@ -63,20 +63,20 @@ def searchKeyDictionaryFromTE(matrix, key, value):
         else:
             explode = value.split(" ")
 
-            #2nd case
+            # 2nd case
             if len(explode) == 3:
                 new_value = explode[0] + " " + explode[2]
 
                 if item[key] == new_value:
                     return index
 
-            #3rd case
+            # 3rd case
             new_value = value.replace("-", " ")
 
             if item[key] == new_value:
                 return index
 
-            #4th case
+            # 4th case
             partValue = value.split("-")
 
             if len(partValue) == 2:
@@ -88,6 +88,29 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                         new_value += " " + part
 
                 if item[key] == new_value:
+                    return index
+
+            # 5th case
+            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann"}
+            new_value = value
+
+            for orig_string, new_string in replace_dict.items():
+                new_value = new_value.replace(orig_string, new_string)
+
+            if item[key] == new_value:
+                return index
+
+            # 6th case
+            pos_open_bracket = value.find("(")
+            first_end = pos_open_bracket - 1
+            pos_close_bracket = value.find(")")
+            second_start = pos_close_bracket + 1
+
+            if pos_open_bracket > -1 and pos_close_bracket > -1:
+                #There is a number between brackets
+                value = value[:first_end] + value[second_start:]
+
+                if item[key] == value:
                     return index
 
     return False

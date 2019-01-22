@@ -122,4 +122,10 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 if item[key] == new_value:
                     return index
 
+            # 8th case
+            if len(explode) == 3:
+                new_value = explode[0] + "-" + explode[1] + " " + explode[2]
+
+                if item[key] == new_value:
+                    return index
     return False

@@ -113,4 +113,13 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 if item[key] == value:
                     return index
 
+            # 7th case
+            explode = value.split(" ")
+
+            if len(explode) == 4:
+                new_value = explode[1] + " " + explode[2] + " " + explode[3]
+
+                if item[key] == new_value:
+                    return index
+
     return False

@@ -134,4 +134,11 @@ def searchKeyDictionaryFromTE(matrix, key, value):
 
             if item[key] == value:
                 return index
+
+            # 10th case
+            if len(explode) > 2:
+                new_value = explode[0] + " " + explode[len(explode) - 1]
+
+                if item[key] == new_value:
+                    return index
     return False

@@ -91,7 +91,7 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                     return index
 
             # 5th case
-            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius"}
+            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam"}
             new_value = value
 
             for orig_string, new_string in replace_dict.items():

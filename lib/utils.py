@@ -128,4 +128,10 @@ def searchKeyDictionaryFromTE(matrix, key, value):
 
                 if item[key] == new_value:
                     return index
+
+            # 9th case
+            value = value.replace(" De ", " de ")
+
+            if item[key] == value:
+                return index
     return False

@@ -22,7 +22,8 @@ page = 1
 cluster = Cluster(["127.0.0.1"])
 session = cluster.connect("beast")
 
-query = "SELECT player_atpwt_id, player_name, player_country FROM player_week WHERE player_rankdate = '2013-09-30'"
+#query = "SELECT player_atpwt_id, player_name, player_country FROM player_week WHERE player_rankdate = '2013-09-30'" # Test
+query = "SELECT player_atpwt_id, player_name, player_country FROM player_week" # Production
 players = session.execute(query)
 
 for player in players:
@@ -46,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 1:
+    if country.text.strip() and index == 0:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:

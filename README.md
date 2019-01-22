@@ -1,7 +1,7 @@
 Tennis Predictor
 =================
 
-[![Build Status](https://travis-ci.org/xavigs/the-beast.svg?branch=master)](https://travis-ci.org/xavigs/the-beast) ![](https://img.shields.io/github/last-commit/xavigs/the-beast.svg) [![license: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![](https://img.shields.io/github/repo-size/xavigs/the-beast.svg?colorB=orange) [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://paypal.me/xavigs84)
+[![Build Status](https://travis-ci.org/xavigs/tennis-predictor.svg?branch=master)](https://travis-ci.org/xavigs/tennis-predictor) ![](https://img.shields.io/github/last-commit/xavigs/tennis-predictor.svg) [![license: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![](https://img.shields.io/github/repo-size/xavigs/tennis-predictor.svg?colorB=orange) [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://paypal.me/xavigs84)
 
 Big Data application that analyses tennis games and predicts future events.
 

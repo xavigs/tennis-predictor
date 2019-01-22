@@ -7,8 +7,10 @@ from pprint import pprint
 import sys
 sys.path.append(r'C:\Users\d_mas\Developer\The Beast\lib')
 import utils
+from colorama import init, Fore, Back, Style
 
 # Variables
+init() # Init colorama
 players_db = dict()
 countries_pycountry = ["Bolivia, Plurinational State of", "Bosnia and Herzegovina", "Czechia", "Dominican Republic", "United Kingdom", "Macedonia, Republic of", "Moldova, Republic of", "Papua New Guinea", "South Africa", "Russian Federation", "Korea, Republic of", "Taiwan, Province of China", "Tunisia", "United States", "Venezuela, Bolivarian Republic of", "Viet Nam"]
 countries_te = ["Bolivia", "Bosnia and Herzeg.", "Czech Republic", "Dominican Rep.", "Great Britain", "Macedonia", "Moldavsko", "Papua N. Guinea", "RSA", "Russia", "South Korea", "Taipei (CHN)", "Tunis", "USA", "Venezuela", "Vietnam"]
@@ -62,7 +64,6 @@ for index, country in enumerate(countries):
         # Web scraping - Country players list from Tennis Explorer
         end_pages = False
         while not end_pages:
-            print("--- PÀGINA " + str(page) + " ---")
             url = "https://www.tennisexplorer.com/list-players/" + country.get('href') + "&page=" + str(page) + "&order=rank"
             r = requests.get(url)
             data = r.text
@@ -74,6 +75,9 @@ for index, country in enumerate(countries):
             if "No players" in content:
                 end_pages = True
             else:
+                print(Back.BLUE + "\n--- PÀGINA " + str(page) + " ---")
+                print(Style.RESET_ALL)
+
                 for player in soup.select("tbody.flags tr"):
                     te_name = list(player.select("td"))[1].text.strip().split(", ")
                     atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
@@ -84,12 +88,15 @@ for index, country in enumerate(countries):
                         try:
                             country_players.remove(atp_id)
                         except ValueError:
-                            print("Hi ha una excepció amb el mestre " + te_name[1] + " " + te_name[0])
+                            print(Fore.RED + "Hi ha una excepció amb el mestre " + te_name[1] + " " + te_name[0] + Style.RESET_ALL)
 
             page += 1
 
+        print("\n" + Back.BLUE + "  JUGADORS QUE FALTEN  ")
+        print(Style.RESET_ALL)
+
         for atp_id in country_players:
-            print("Falta trobar el mestre " + players_db[atp_id]['name'])
+            print(Fore.YELLOW + "Falta trobar el mestre " + players_db[atp_id]['name'])
 
         # End Test
         exit()

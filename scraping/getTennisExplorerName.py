@@ -1,5 +1,6 @@
 from cassandra.cluster import Cluster
 from bs4 import BeautifulSoup
+import re
 import requests
 import pycountry
 from pprint import pprint
@@ -41,8 +42,9 @@ data = r.text
 soup = BeautifulSoup(data, "html.parser")
 countries = soup.select("tbody#rank-country td a")
 
-for country in countries:
-    if country.text.strip():
+for index, country in enumerate(countries):
+    # Test from specific country
+    if country.text.strip() and index == 1:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -55,31 +57,39 @@ for country in countries:
             if player['country'] == utils.replaceMultiple2(country_pycountry.alpha_3, abbr_pycountry, abbr_atp):
                 country_players.append(atp_id)
 
-        print(len(country_players))
+        print("Nº de jugadors: " + str(len(country_players)))
 
         # Web scraping - Country players list from Tennis Explorer
-        while page <= 32:
+        end_pages = False
+        while not end_pages:
             print("--- PÀGINA " + str(page) + " ---")
             url = "https://www.tennisexplorer.com/list-players/" + country.get('href') + "&page=" + str(page) + "&order=rank"
             r = requests.get(url)
             data = r.text
             soup = BeautifulSoup(data, "html.parser")
 
-            for player in soup.select("tbody.flags tr"):
-                te_name = list(player.select("td"))[1].text.strip().split(", ")
-                atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
+            # Validate if there are players
+            content = list(soup.select("form#playerSearch"))[0].parent.text.strip()
 
-                if atp_id:
-                    print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!!")
+            if "No players" in content:
+                end_pages = True
+            else:
+                for player in soup.select("tbody.flags tr"):
+                    te_name = list(player.select("td"))[1].text.strip().split(", ")
+                    atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
 
-                    try:
-                        country_players.remove(atp_id)
-                    except ValueError:
-                        print("Hi ha una excepció amb el mestre " + te_name[1] + " " + te_name[0])
+                    if atp_id:
+                        print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!!")
+
+                        try:
+                            country_players.remove(atp_id)
+                        except ValueError:
+                            print("Hi ha una excepció amb el mestre " + te_name[1] + " " + te_name[0])
 
             page += 1
 
         for atp_id in country_players:
             print("Falta trobar el mestre " + players_db[atp_id]['name'])
 
+        # End Test
         exit()

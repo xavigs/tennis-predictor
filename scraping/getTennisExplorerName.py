@@ -8,6 +8,7 @@ import sys
 sys.path.append(r'C:\Users\d_mas\Developer\The Beast\lib')
 import utils
 from colorama import init, Fore, Back, Style
+from datetime import datetime
 
 # Variables
 init() # Init colorama
@@ -23,13 +24,14 @@ cluster = Cluster(["127.0.0.1"])
 session = cluster.connect("beast")
 
 #query = "SELECT player_atpwt_id, player_name, player_country FROM player_week WHERE player_rankdate = '2013-09-30'" # Test
-query = "SELECT player_atpwt_id, player_name, player_country FROM player_week" # Production
+query = "SELECT player_atpwt_id, player_name, player_country, player_rankdate FROM player_week" # Production
 players = session.execute(query)
 
 for player in players:
     player_db = dict()
     player_db['name'] = player.player_name
     player_db['country'] = player.player_country
+    player_db['rankdate'] = str(player.player_rankdate)
 
     if not player.player_atpwt_id in players_db:
         players_db[player.player_atpwt_id] = player_db
@@ -59,6 +61,7 @@ for index, country in enumerate(countries):
         for atp_id, player in players_db.items():
             if player['country'] == utils.replaceMultiple2(country_pycountry.alpha_3, abbr_pycountry, abbr_atp):
                 country_players.append(atp_id)
+        pprint(country_players)
 
         print("Nº de jugadors: " + str(len(country_players)))
 
@@ -84,7 +87,7 @@ for index, country in enumerate(countries):
                     atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
 
                     if atp_id:
-                        print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!!")
+                        print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!! (" + players_db[atp_id]['rankdate'] + ")")
 
                         try:
                             country_players.remove(atp_id)

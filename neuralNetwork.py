@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def sigmoid(x):
     return 1.0 / (1.0 + np.exp(-x))
@@ -42,9 +43,9 @@ class NeuralNetwork:
             a = [X[i]]
 
             for l in range(len(self.weights)):
-                    dot_value = np.dot(a[l], self.weights[l])
-                    activation = self.activation(dot_value)
-                    a.append(activation)
+                dot_value = np.dot(a[l], self.weights[l])
+                activation = self.activation(dot_value)
+                a.append(activation)
 
             error = y[i] - a[-1]
             deltas = [error * self.activation_prime(a[-1])]
@@ -79,60 +80,146 @@ class NeuralNetwork:
         return self.deltas
 
 # Test app (funció AND)
-nn = NeuralNetwork([2, 2, 1], activation = 'tanh')
+nn = NeuralNetwork([26, 5, 1], activation = 'tanh')
+games = []
+predict = []
+games_names = ["Isner vs Aliassime"]
 
-X = np.array([[3, 2],
-              [1, 7],
-              [8, 4],
-              [5, 5],
-              [0, 6],
-              [7, 7],
-              [1, 1],
-              [9, 3],
-              [4, 9],
-              [2, 0],
-              [0, 4],
-              [5, 2],
-              [3, 5],
-              [8, 8],
-              [9, 9],
-              [1, 0],
-              [0, 0],
-              [2, 4]])
+'''
+    Torneig - Ronda - Local - Edat - Rank - Race - RankMax - H2H - %Any - %AnySup - %SupCar - 3Mesos - PtsDef - Odd
+'''
 
-y = np.array([[0.05],
-              [0.08],
-              [0.12],
-              [0.10],
-              [0.06],
-              [0.14],
-              [0.02],
-              [0.12],
-              [0.13],
-              [0.02],
-              [0.04],
-              [0.07],
-              [0.08],
-              [0.16],
-              [0.18],
-              [0.01],
-              [0.00],
-              [0.06]])
+# Basilashvili vs Eubanks (1R)
+bas_eub = [2000, 1, 0, 0, 26, 22, 20, 170, 73, 63, 20, 166, 0, 0, 67, 50, 67, 50, 56, 58, 13, 10, 90, 0, 1.23, 4.16]
+games.append(bas_eub)
 
-Z = np.array([[4, 4],
-              [1, 3],
-              [0, 2],
-              [9, 6]])
+# Travaglia vs Andreozzi (1R)
+tra_and = [2000, 1, 0, 0, 27, 27, 137, 77, 229, 103, 108, 77, 33, 67, 0, 50, 0, 50, 58, 58, 5, 16, 0, 0, 1.45, 2.76]
+games.append(tra_and)
 
-sol = np.array([[0.08],
-               [0.04],
-               [0.02],
-               [0.15]])
+# Anderson vs Mannarino (1R)
+and_man = [2000, 1, 0, 0, 32, 30, 6, 42, 3, 0, 5, 22, 75, 25, 100, 0, 100, 0, 68, 61, 25, 14, 10, 90, 1.06, 9.29]
+games.append(and_man)
+
+# Mmoh vs Albot (1R)
+mmo_alb = [2000, 1, 0, 0, 21, 29, 107, 98, 101, 120, 96, 81, 0, 0, 50, 0, 50, 0, 64, 66, -3, 0, 0, 10, 1.71, 2.13]
+games.append(mmo_alb)
+
+# Verdasco vs Kecmanovic (1R)
+ver_kec = [2000, 1, 0, 0, 35, 29, 28, 125, 139, 108, 7, 125, 0, 0, 75, 75, 75, 75, 57, 65, 3, 22, 45, 0, 1.47, 2.70]
+games.append(ver_kec)
+
+# Garcia-López vs Haase (1R)
+gar_haa = [2000, 1, 0, 0, 35, 31, 100, 58, 41, 0, 23, 33, 100, 0, 75, 0, 75, 0, 53, 53, -6, -17, 45, 10, 1.76, 2.06]
+games.append(gar_haa)
+
+# Tsitsipas vs Berrettini (1R)
+tsi_ber = [2000, 1, 0, 0, 20, 22, 15, 54, 73, 147, 15, 52, 100, 0, 50, 33, 50, 33, 61, 67, 6, -4, 10, 10, 1.39, 3.01]
+games.append(tsi_ber)
+
+# Tiafoe vs Gunneswaran (1R)
+tia_gun = [2000, 1, 0, 0, 20, 29, 39, 109, 0, 10, 38, 104, 0, 0, 0, 0, 0, 0, 59, 67, 13, 36, 10, 0, 1.29, 3.58]
+games.append(tia_gun)
+
+# Dimitrov vs Tipsarevic (1R)
+dim_tip = [2000, 1, 0, 0, 27, 34, 21, 0, 73, 0, 3, 8, 17, 83, 67, 0, 67, 0, 63, 61, -57, 0, 360, 0, 1.05, 9.86]
+games.append(dim_tip)
+
+# Nadal vs Duckworth (1R)
+nad_duc = [2000, 1, 0, 1, 32, 26, 2, 237, 0, 0, 1, 82, 0, 0, 0, 0, 0, 0, 78, 60, -50, 8, 360, 0, 1.04, 11.08]
+games.append(nad_duc)
+
+# Lajovic vs Cuevas (1R)
+laj_cue = [2000, 1, 0, 0, 28, 33, 46, 94, 83, 266, 45, 19, 0, 100, 50, 33, 50, 33, 57, 46, 8, -30, 10, 45, 1.37, 3.07]
+games.append(laj_cue)
+
+# Kubler vs Fabbiano (1R)
+kub_fab = [2000, 1, 1, 0, 25, 29, 130, 102, 0, 264, 91, 70, 0, 0, 0, 50, 0, 50, 65, 65, -30, 22, 10, 10, 1.81, 2.00]
+games.append(kub_fab)
+
+# Isner vs Opelka (1R)
+isn_ope = [2000, 1, 0, 0, 33, 21, 10, 97, 0, 6, 8, 97, 50, 50, 0, 60, 0, 60, 67, 52, 0, 27, 10, 0, 1.44, 2.78]
+games.append(isn_ope)
+
+# Ivashka vs Andreozzi (1R)
+iva_and = [1000, 1, 0, 0, 25, 27, 96, 88, 83, 219, 80, 70, 0, 0, 50, 22, 58, 40, 65, 59, -4, -10, 0, 0, 1.32, 3.38]
+games.append(iva_and)
+
+# Norrie vs Aliassime (1R)
+ali_nor = [1000, 1, 0, 0, 23, 18, 48, 58, 24, 27, 48, 58, 0, 0, 60, 59, 70, 60, 73, 63, 47, 47, 10, 25, 1.64, 2.24]
+games.append(ali_nor)
+
+# Dzumhur vs Ramos-Viñolas (1R)
+dzu_ram = [1000, 1, 0, 0, 26, 31, 54, 91, 129, 61, 23, 17, 0, 100, 25, 46, 0, 0, 52, 49, -13, -29, 25, 25, 1.71, 2.12]
+games.append(dzu_ram)
+
+# Karlovic vs Ebden (1R)
+kar_ebd = [1000, 1, 0, 0, 40, 31, 89, 49, 55, 173, 14, 39, 33, 67, 50, 29, 63, 25, 56, 60, 12, -6, 10, 10, 1.85, 1.93]
+games.append(kar_ebd)
+
+# Kohlschreiber vs Herbert (1R)
+koh_her = [1000, 1, 0, 0, 35, 27, 39, 44, 91, 39, 16, 36, 80, 20, 50, 67, 50, 67, 58, 58, -13, 20, 180, 90, 1.64, 2.24]
+games.append(koh_her)
+
+# Thompson vs Delbonis (1R)
+tho_del = [1000, 1, 0, 0, 24, 28, 77, 80, 68, 66, 60, 33, 0, 0, 54, 54, 50, 60, 63, 46, -6, 0, 0, 25, 1.56, 2.42]
+games.append(tho_del)
+
+# Shapovalov vs Tiafoe (QF)
+sha_tia = [1000, 5, 0, 1, 19, 21, 23, 34, 41, 25, 23, 29, 50, 50, 68, 47, 73, 50, 64, 59, 15, 13, 180, 180, 1.55, 2.49]
+games.append(sha_tia)
+
+# Isner vs Aliassime (SF)
+isn_ali = [1000, 6, 1, 0, 33, 18, 9, 57, 23, 26, 8, 57, 0, 0, 70, 70, 71, 80, 67, 63, 10, 48, 1000, 0, 1.58, 2.39]
+predict.append(isn_ali)
+
+X = np.array(games)
+y = np.array([[-1], [-1], [-1], [1], [-1], [1], [-1], [-1], [-1], [-1], [1], [1], [1], [1], [1], [1], [-1], [-1], [-1], [-1]])
+Z = np.array(predict)
+
+sol = np.array([[0]])
 
 nn.fit(X, y, learning_rate = 0.03, epochs = 200000)
 
 index = 0
 
 for e in Z:
-    print("Z:", e, "Sol:", sol[index], "Network:", nn.predict(e))
+    coef = nn.predict(e)
+    prob_opp = round((coef[0] + 1) * 100 / 2, 2)
+    prob_fav = round(100 - prob_opp, 2)
+    inv_odd1 = 1 / predict[index][18]
+    inv_odd2 = 1 / predict[index][19]
+    inv_tot = inv_odd1 + inv_odd2
+    prob_bookmark1 = inv_odd1 * (100 - (inv_tot * 100 - 100))
+    prob_bookmark2 = inv_odd2 * (100 - (inv_tot * 100 - 100))
+    new_odd1 = round(100 / prob_bookmark1, 2)
+    new_odd2 = round(100 / prob_bookmark2, 2)
+    value1 = round((new_odd1 * prob_fav / 100 - 1) * 100, 2)
+    value2 = round((new_odd2 * prob_opp / 100 - 1) * 100, 2)
+
+    if (predict[index][18] >= 1.50 and predict[index][18] <= 2.50 and value1 > 0):
+        print("Pick pel favorit del partit " + games_names[index] + ":")
+        print("Z:", e, "Sol:", sol[index], "Network:", coef, "Prob:", str(prob_fav) + "%", "-", str(prob_opp) + "%", "Value:", str(value1), "-", str(value2))
+    else:
+        if (predict[index][19] >= 1.50 and predict[index][19] <= 2.50 and value2 > 0):
+            print("Pick per la sorpresa del partit " + games_names[index] + ":")
+            print("Z:", e, "Sol:", sol[index], "Network:", coef, "Prob:", str(prob_fav) + "%", "-", str(prob_opp) + "%", "Value:", str(value1), "-", str(value2))
+
     index = index + 1
+'''
+# Gràfica
+deltas = nn.get_deltas()
+valores=[]
+index=0
+
+for arreglo in deltas:
+    valores.append(arreglo[1][0])
+    index=index+1
+
+plt.plot(range(len(valores)), valores, color='b')
+plt.ylim([0, 1])
+plt.ylabel('Cost')
+plt.xlabel('Epochs')
+plt.tight_layout()
+plt.show()
+'''

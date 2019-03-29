@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 0:
+    if country.text.strip() and index == 3:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -108,18 +108,14 @@ for index, country in enumerate(countries):
 # Update
 print(Fore.GREEN)
 print(Style.BRIGHT)
-rankdates = []
-rankdates_full = False
 
 for player_te in players_te:
-    if rankdates_full == False:
-        query = "SELECT player_rankdate FROM player_by_keyword WHERE player_keyword = '" + player_te['keyword'] + "'"
-        ranks = session.execute(query)
+    rankdates = []
+    query = "SELECT player_rankdate FROM player_by_keyword WHERE player_keyword = '" + player_te['keyword'] + "'"
+    ranks = session.execute(query)
 
-        for rank in ranks:
-            rankdates.append(rank.player_rankdate)
-
-        rankdates_full = True
+    for rank in ranks:
+        rankdates.append(rank.player_rankdate)
 
     for rankdate in rankdates:
         update = "UPDATE player_by_keyword "\

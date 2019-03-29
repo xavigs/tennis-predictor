@@ -13,6 +13,7 @@ from datetime import datetime
 # Variables
 init() # Init colorama
 players_db = dict()
+players_te = []
 countries_pycountry = ["Bolivia, Plurinational State of", "Bosnia and Herzegovina", "Czechia", "Dominican Republic", "United Kingdom", "Macedonia, Republic of", "Moldova, Republic of", "Papua New Guinea", "South Africa", "Russian Federation", "Korea, Republic of", "Taiwan, Province of China", "Tunisia", "United States", "Venezuela, Bolivarian Republic of", "Viet Nam"]
 countries_te = ["Bolivia", "Bosnia and Herzeg.", "Czech Republic", "Dominican Rep.", "Great Britain", "Macedonia", "Moldavsko", "Papua N. Guinea", "RSA", "Russia", "South Korea", "Taipei (CHN)", "Tunis", "USA", "Venezuela", "Vietnam"]
 abbr_pycountry = ["BGR", "BRB", "CHE", "CHL", "DEU", "DNK", "GRC", "HRV", "LVA", "MCO", "NLD", "OMN", "PRI", "PRT", "PRY", "SLV", "SVN", "TWN", "URY", "VNM", "ZAF", "ZWE"]
@@ -24,7 +25,7 @@ cluster = Cluster(["127.0.0.1"])
 session = cluster.connect("beast")
 
 #query = "SELECT player_atpwt_id, player_name, player_country FROM player_week WHERE player_rankdate = '2013-09-30'" # Test
-query = "SELECT player_atpwt_id, player_name, player_country, player_rankdate FROM player_week" # Production
+query = "SELECT player_keyword, player_atpwt_id, player_name, player_country, player_rankdate FROM player_by_keyword" # Production
 players = session.execute(query)
 
 for player in players:
@@ -32,13 +33,10 @@ for player in players:
     player_db['name'] = player.player_name
     player_db['country'] = player.player_country
     player_db['rankdate'] = str(player.player_rankdate)
+    player_db['keyword'] = player.player_keyword
 
     if not player.player_atpwt_id in players_db:
         players_db[player.player_atpwt_id] = player_db
-
-# Close connections
-session.shutdown()
-cluster.shutdown()
 
 # Get players by country from Tennis Explorer
 url = "https://www.tennisexplorer.com/list-players/"
@@ -49,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 4:
+    if country.text.strip() and index == 0:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -91,6 +89,11 @@ for index, country in enumerate(countries):
 
                         try:
                             country_players.remove(atp_id)
+                            player_te = dict()
+                            player_te['keyword'] = players_db[atp_id]['keyword'].replace("'", "''")
+                            player_te['te_name'] = list(player.select("td"))[1].text.strip().replace(",", "").replace("'", "''")
+                            player_te['te_url'] = list(player.select("a"))[0]['href']
+                            players_te.append(player_te)
                         except ValueError:
                             print(Fore.RED + "Hi ha una excepció amb el mestre " + te_name[1] + " " + te_name[0] + Style.RESET_ALL)
 
@@ -102,5 +105,32 @@ for index, country in enumerate(countries):
         for atp_id in country_players:
             print(Fore.YELLOW + "Falta trobar el mestre " + players_db[atp_id]['name'])
 
-        # End Test
-        exit()
+# Update
+print(Fore.GREEN)
+print(Style.BRIGHT)
+rankdates = []
+rankdates_full = False
+
+for player_te in players_te:
+    if rankdates_full == False:
+        query = "SELECT player_rankdate FROM player_by_keyword WHERE player_keyword = '" + player_te['keyword'] + "'"
+        ranks = session.execute(query)
+
+        for rank in ranks:
+            rankdates.append(rank.player_rankdate)
+
+        rankdates_full = True
+
+    for rankdate in rankdates:
+        update = "UPDATE player_by_keyword "\
+                 "SET player_te_name = '" + player_te['te_name'] + "', "\
+                 "player_te_url = '" + player_te['te_url'] + "' "\
+                 "WHERE player_keyword = '" + player_te['keyword'] + "' "\
+                 "AND player_rankdate = '" + str(rankdate) + "'"
+
+        print(update)
+        session.execute(update)
+
+# Close connections
+session.shutdown()
+cluster.shutdown()

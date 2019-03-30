@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 9:
+    if country.text.strip() and index == 12:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -81,21 +81,26 @@ for index, country in enumerate(countries):
                 print(Style.RESET_ALL)
 
                 for player in soup.select("tbody.flags tr"):
-                    te_name = list(player.select("td"))[1].text.strip().split(", ")
-                    atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
+                    if list(player.select("td"))[1].text.strip() == "":
+                        end_pages = True
 
-                    if atp_id:
-                        print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!! (" + players_db[atp_id]['rankdate'] + ")")
+                    if not end_pages:
+                        te_name = list(player.select("td"))[1].text.strip().split(", ")
+                        atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
 
-                        try:
-                            country_players.remove(atp_id)
-                            player_te = dict()
-                            player_te['keyword'] = players_db[atp_id]['keyword'].replace("'", "''")
-                            player_te['te_name'] = list(player.select("td"))[1].text.strip().replace(",", "").replace("'", "''")
-                            player_te['te_url'] = list(player.select("a"))[0]['href']
-                            players_te.append(player_te)
-                        except ValueError:
-                            print(Fore.RED + "Hi ha una excepció amb el mestre " + te_name[1] + " " + te_name[0] + Style.RESET_ALL)
+                        if atp_id:
+                            print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!! (" + players_db[atp_id]['rankdate'] + ")")
+                            print(atp_id)
+
+                            try:
+                                country_players.remove(atp_id)
+                                player_te = dict()
+                                player_te['keyword'] = players_db[atp_id]['keyword'].replace("'", "''")
+                                player_te['te_name'] = list(player.select("td"))[1].text.strip().replace(",", "").replace("'", "''")
+                                player_te['te_url'] = list(player.select("a"))[0]['href']
+                                players_te.append(player_te)
+                            except ValueError:
+                                print(Back.RED + "Hi ha una excepció amb el mestre " + te_name[1] + " " + te_name[0] + Style.RESET_ALL)
 
             page += 1
 
@@ -103,14 +108,14 @@ for index, country in enumerate(countries):
         print(Style.RESET_ALL)
 
         for atp_id in country_players:
-            print(Fore.YELLOW + "Falta trobar el mestre " + players_db[atp_id]['name'])
+            print(Back.YELLOW + Fore.BLACK + "Falta trobar el mestre " + players_db[atp_id]['name'])
 
 # Update
 doUpdate = True
 
 if doUpdate:
-    print(Fore.GREEN)
-    print(Style.BRIGHT)
+    print(Style.RESET_ALL)
+    print(Fore.GREEN + Style.BRIGHT)
 
     for player_te in players_te:
         rankdates = []

@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 6:
+    if country.text.strip() and index == 9:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -106,26 +106,29 @@ for index, country in enumerate(countries):
             print(Fore.YELLOW + "Falta trobar el mestre " + players_db[atp_id]['name'])
 
 # Update
-print(Fore.GREEN)
-print(Style.BRIGHT)
+doUpdate = True
 
-for player_te in players_te:
-    rankdates = []
-    query = "SELECT player_rankdate FROM player_by_keyword WHERE player_keyword = '" + player_te['keyword'] + "'"
-    ranks = session.execute(query)
+if doUpdate:
+    print(Fore.GREEN)
+    print(Style.BRIGHT)
 
-    for rank in ranks:
-        rankdates.append(rank.player_rankdate)
+    for player_te in players_te:
+        rankdates = []
+        query = "SELECT player_rankdate FROM player_by_keyword WHERE player_keyword = '" + player_te['keyword'] + "'"
+        ranks = session.execute(query)
 
-    for rankdate in rankdates:
-        update = "UPDATE player_by_keyword "\
-                 "SET player_te_name = '" + player_te['te_name'] + "', "\
-                 "player_te_url = '" + player_te['te_url'] + "' "\
-                 "WHERE player_keyword = '" + player_te['keyword'] + "' "\
-                 "AND player_rankdate = '" + str(rankdate) + "'"
+        for rank in ranks:
+            rankdates.append(rank.player_rankdate)
 
-        print(update)
-        session.execute(update)
+        for rankdate in rankdates:
+            update = "UPDATE player_by_keyword "\
+                     "SET player_te_name = '" + player_te['te_name'] + "', "\
+                     "player_te_url = '" + player_te['te_url'] + "' "\
+                     "WHERE player_keyword = '" + player_te['keyword'] + "' "\
+                     "AND player_rankdate = '" + str(rankdate) + "'"
+
+            print(update)
+            session.execute(update)
 
 # Close connections
 session.shutdown()

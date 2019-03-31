@@ -46,6 +46,7 @@ def search_td(matrix, key1, value1, key2, value2):
 def searchKeyDictionaryByValue(matrix, key, value, isTE):
     for index, item in matrix.items():
         if item[key] == value:
+            print ("Case 0")
             return index
 
     if isTE:
@@ -55,10 +56,13 @@ def searchKeyDictionaryByValue(matrix, key, value, isTE):
 
 def searchKeyDictionaryFromTE(matrix, key, value):
     for index, item in matrix.items():
+        item[key] = item[key].replace("  ", " ")
+
         # 1st case
         value = value.replace(" Del ", " del ")
 
         if item[key] == value:
+            print("Case 1")
             return index
         else:
             explode = value.split(" ")
@@ -68,12 +72,14 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 new_value = explode[0] + " " + explode[2]
 
                 if item[key] == new_value:
+                    print("Case 2")
                     return index
 
             # 3rd case
             new_value = value.replace("-", " ")
 
             if item[key] == new_value:
+                print("Case 3")
                 return index
 
             # 4th case
@@ -88,16 +94,18 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                         new_value += " " + part
 
                 if item[key] == new_value:
+                    print("Case 4")
                     return index
 
             # 5th case
-            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic"}
+            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius"}
             new_value = value
 
             for orig_string, new_string in replace_dict.items():
                 new_value = new_value.replace(orig_string, new_string)
 
-            if item[key] == new_value:
+            if item[key] == new_value or item[key] == new_value.replace("Marko", "Marco"):
+                print("Case 5")
                 return index
 
             # 6th case
@@ -111,6 +119,7 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 value = value[:first_end] + value[second_start:]
 
                 if item[key] == value:
+                    print("Case 6")
                     return index
 
             # 7th case
@@ -120,6 +129,7 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 new_value = explode[1] + " " + explode[2] + " " + explode[3]
 
                 if item[key] == new_value:
+                    print("Case 7")
                     return index
 
             # 8th case
@@ -127,24 +137,54 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 new_value = explode[0] + "-" + explode[1] + " " + explode[2]
 
                 if item[key] == new_value:
+                    print("Case 8")
                     return index
 
             # 9th case
+            if len(explode) == 3:
+                new_value = explode[0] + " " + explode[2] + " " + explode[1]
+
+                if item[key] == new_value:
+                    print("Case 9")
+                    return index
+
+            # 10th case
             value = value.replace(" De ", " de ")
 
             if item[key] == value:
+                print("Case 10")
                 return index
-
-            # 10th case
-            if len(explode) > 2:
-                new_value = explode[0] + " " + explode[len(explode) - 1]
-
-                if item[key] == new_value:
-                    return index
 
             # 11th case
             value = value.replace(" de ", " De ")
 
             if item[key] == value:
+                print("Case 11")
                 return index
+
+    for index, item in matrix.items():
+        # 12th case
+        if len(explode) > 2:
+            new_value = explode[0] + " " + explode[len(explode) - 1]
+
+            if item[key] == new_value:
+                print("Case 12")
+                return index
+
+        # 13th case
+        if len(explode) > 2:
+            new_value = explode[0] + " " + explode[1]
+
+            if item[key] == new_value:
+                print("Case 13")
+                return index
+
+        # 14th case
+        if len(explode) > 2:
+            new_value = explode[0] + " " + explode[1] + " " + explode[len(explode) - 1]
+
+            if item[key] == new_value:
+                print("Case 14")
+                return index
+
     return False

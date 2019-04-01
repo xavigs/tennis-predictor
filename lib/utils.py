@@ -98,7 +98,7 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                     return index
 
             # 5th case
-            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius"}
+            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol"}
             new_value = value
 
             for orig_string, new_string in replace_dict.items():
@@ -185,6 +185,24 @@ def searchKeyDictionaryFromTE(matrix, key, value):
 
             if item[key] == new_value:
                 print("Case 14")
+                return index
+
+        # 15th case
+        explode_item = item[key].split(" ")
+
+        if len(explode_item) > 2:
+            item[key] = explode_item[0] + " " + explode_item[len(explode_item) - 1]
+
+            if item[key] == value:
+                print("Case 15")
+                return index
+
+        # 16th case
+        if len(explode) == 3:
+            new_value = explode[0] + " " + explode[1] + "-" + explode[2]
+
+            if item[key] == new_value:
+                print("Case 16")
                 return index
 
     return False

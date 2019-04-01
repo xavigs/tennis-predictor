@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 30:
+    if country.text.strip() and index == 33:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -88,7 +88,7 @@ for index, country in enumerate(countries):
                         te_name = list(player.select("td"))[1].text.strip().split(", ")
                         atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
 
-                        if atp_id:
+                        if atp_id and te_name[1] + " " + te_name[0] != "Sebastian Vidal":
                             print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!! (" + players_db[atp_id]['rankdate'] + ")")
                             print(atp_id)
 

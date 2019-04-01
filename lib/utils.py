@@ -174,6 +174,8 @@ def searchKeyDictionaryFromTE(matrix, key, value):
         # 13th case
         if len(explode) > 2:
             new_value = explode[0] + " " + explode[1]
+            if "Laslo" in value:
+                print(new_value)
 
             if item[key] == new_value:
                 print("Case 13")
@@ -203,6 +205,14 @@ def searchKeyDictionaryFromTE(matrix, key, value):
 
             if item[key] == new_value:
                 print("Case 16")
+                return index
+
+        # 17th case
+        if len(explode_item) == 3:
+            item[key] = explode_item[0] + " " + explode_item[1]
+
+            if item[key] == value:
+                print("Case 17")
                 return index
 
     return False

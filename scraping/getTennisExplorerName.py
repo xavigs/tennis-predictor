@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 33:
+    if country.text.strip() and index == 36:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -88,8 +88,8 @@ for index, country in enumerate(countries):
                         te_name = list(player.select("td"))[1].text.strip().split(", ")
                         atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
 
-                        if atp_id and te_name[1] + " " + te_name[0] != "Sebastian Vidal":
-                            print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!! (" + players_db[atp_id]['rankdate'] + ")")
+                        if atp_id and te_name[1] + " " + te_name[0] != "Hao Zhang" and te_name[1] + " " + te_name[0] != "Sheng Hao Jin":
+                            print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!! (" + players_db[atp_id]['rankdate'] + ") - " + list(player.select("a"))[0]['href'])
                             print(atp_id)
 
                             try:
@@ -108,7 +108,7 @@ for index, country in enumerate(countries):
         print(Style.RESET_ALL)
 
         for atp_id in country_players:
-            print(Back.YELLOW + Fore.BLACK + "Falta trobar el mestre " + players_db[atp_id]['name'])
+            print(Back.YELLOW + Fore.BLACK + "Falta trobar el mestre " + players_db[atp_id]['name'] + "(" + atp_id + ")")
 
 # Update
 doUpdate = True

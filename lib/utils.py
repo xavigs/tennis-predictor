@@ -98,13 +98,13 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                     return index
 
             # 5th case
-            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol", "Tianjia": "Tian jia", "Weiqiang": "Wei Qiang", "Ruixuan": "Rui-Xuan"}
+            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol", "Tianjia": "Tian jia", "Weiqiang": "Wei Qiang", "Ruixuan": "Rui-Xuan", "Cortes": "Cortez"}
             new_value = value
 
             for orig_string, new_string in replace_dict.items():
                 new_value = new_value.replace(orig_string, new_string)
 
-            if item[key] == new_value or item[key] == new_value.replace("Marko", "Marco"):
+            if item[key] == new_value or item[key] == new_value.replace("Marko", "Marco") or item[key] == new_value.replace("Aliaksandr", "Alexander"):
                 print("Case 5")
                 return index
 
@@ -211,6 +211,23 @@ def searchKeyDictionaryFromTE(matrix, key, value):
 
             if new_key == value:
                 print("Case 17")
+                return index
+
+        # 18th case
+        if len(explode_item) == 2 and "-" in explode_item[0]:
+            firstname = explode_item[0].split("-")
+            new_key = firstname[0] + " " + explode_item[1]
+
+            if new_key == value:
+                print("Case 18")
+                return index
+
+        # 19th case
+        if len(explode) == 4:
+            new_value = explode[0] + " " + explode[1] + " " + explode[2]
+
+            if item[key] == new_value:
+                print("Case 19")
                 return index
 
     return False

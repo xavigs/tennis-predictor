@@ -240,4 +240,12 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 print("Case 20")
                 return index
 
+        # 21th case
+        if len(explode) == 4:
+            new_value = explode[0] + " " + explode[2]
+
+            if item[key] == new_value:
+                print("Case 21")
+                return index
+
     return False

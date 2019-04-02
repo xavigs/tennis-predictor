@@ -230,4 +230,14 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 print("Case 19")
                 return index
 
+        # 20th case
+        if len(explode_item) == 2 and "-" in explode_item[0] and "-" in explode_item[1]:
+            firstname = explode_item[0].split("-")
+            lastname = explode_item[1].split("-")
+            new_key = firstname[0] + " " + lastname[0]
+
+            if new_key == value:
+                print("Case 20")
+                return index
+
     return False

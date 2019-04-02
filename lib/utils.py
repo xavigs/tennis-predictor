@@ -98,7 +98,7 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                     return index
 
             # 5th case
-            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol", "Tianjia": "Tian jia", "Weiqiang": "Wei Qiang", "Ruixuan": "Rui-Xuan", "Cortes": "Cortez", "Franco": "Franko", "Roko": "Rocco"}
+            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol", "Tianjia": "Tian jia", "Weiqiang": "Wei Qiang", "Ruixuan": "Rui-Xuan", "Cortes": "Cortez", "Franco": "Franko", "Roko": "Rocco", "Al ": "Haitham ", "Tareq": "Tarek"}
             new_value = value
 
             for orig_string, new_string in replace_dict.items():

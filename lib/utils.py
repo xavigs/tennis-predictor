@@ -68,21 +68,13 @@ def searchKeyDictionaryFromTE(matrix, key, value):
             explode = value.split(" ")
 
             # 2nd case
-            if len(explode) == 3:
-                new_value = explode[0] + " " + explode[2]
-
-                if item[key] == new_value:
-                    print("Case 2")
-                    return index
-
-            # 3rd case
             new_value = value.replace("-", " ")
 
             if item[key] == new_value:
-                print("Case 3")
+                print("Case 2")
                 return index
 
-            # 4th case
+            # 3rd case
             partValue = value.split("-")
 
             if len(partValue) == 2:
@@ -94,11 +86,11 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                         new_value += " " + part
 
                 if item[key] == new_value:
-                    print("Case 4")
+                    print("Case 3")
                     return index
 
-            # 5th case
-            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol", "Tianjia": "Tian jia", "Weiqiang": "Wei Qiang", "Ruixuan": "Rui-Xuan", "Cortes": "Cortez", "Franco": "Franko", "Roko": "Rocco", "Al ": "Haitham ", "Tareq": "Tarek", "Jean Baptiste": "Jean-baptiste", "Giorgos": "George", "Hong-kit": "Hong Kit"}
+            # 4th case
+            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol", "Tianjia": "Tian jia", "Weiqiang": "Wei Qiang", "Ruixuan": "Rui-Xuan", "Cortes": "Cortez", "Franco": "Franko", "Roko": "Rocco", "Al ": "Haitham ", "Tareq": "Tarek", "Jean Baptiste": "Jean-baptiste", "Giorgos": "George", "Hong-kit": "Hong Kit", "Vijay-Sundar": "N Vijay Sundar", "Prasanth": "Prashanth", "N. Sriram": "N.Sriram"}
             new_value = value
 
             for orig_string, new_string in replace_dict.items():
@@ -108,10 +100,10 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                or item[key] == new_value.replace("Marko", "Marco")\
                or item[key] == new_value.replace("Aliaksandr", "Alexander")\
                or item[key] == new_value.replace("Aliaksandr", "Alexandros"):
-                print("Case 5")
+                print("Case 4")
                 return index
 
-            # 6th case
+            # 5th case
             pos_open_bracket = value.find("(")
             first_end = pos_open_bracket - 1
             pos_close_bracket = value.find(")")
@@ -122,14 +114,22 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 value = value[:first_end] + value[second_start:]
 
                 if item[key] == value:
+                    print("Case 5")
+                    return index
+
+            # 6th case
+            explode = new_value.split(" ")
+
+            if len(explode) == 4:
+                new_value = explode[1] + " " + explode[2] + " " + explode[3]
+
+                if item[key] == new_value:
                     print("Case 6")
                     return index
 
             # 7th case
-            explode = value.split(" ")
-
-            if len(explode) == 4:
-                new_value = explode[1] + " " + explode[2] + " " + explode[3]
+            if len(explode) == 3:
+                new_value = explode[0] + "-" + explode[1] + " " + explode[2]
 
                 if item[key] == new_value:
                     print("Case 7")
@@ -137,35 +137,35 @@ def searchKeyDictionaryFromTE(matrix, key, value):
 
             # 8th case
             if len(explode) == 3:
-                new_value = explode[0] + "-" + explode[1] + " " + explode[2]
+                new_value = explode[0] + " " + explode[2] + " " + explode[1]
 
                 if item[key] == new_value:
                     print("Case 8")
                     return index
 
             # 9th case
-            if len(explode) == 3:
-                new_value = explode[0] + " " + explode[2] + " " + explode[1]
+            value = value.replace(" De ", " de ")
 
-                if item[key] == new_value:
-                    print("Case 9")
-                    return index
+            if item[key] == value:
+                print("Case 9")
+                return index
 
             # 10th case
-            value = value.replace(" De ", " de ")
+            value = value.replace(" de ", " De ")
 
             if item[key] == value:
                 print("Case 10")
                 return index
 
-            # 11th case
-            value = value.replace(" de ", " De ")
+    for index, item in matrix.items():
+        # 11nd case
+        if len(explode) == 3:
+            new_value = explode[0] + " " + explode[2]
 
-            if item[key] == value:
+            if item[key] == new_value:
                 print("Case 11")
                 return index
 
-    for index, item in matrix.items():
         # 12th case
         if len(explode) > 2:
             new_value = explode[0] + " " + explode[len(explode) - 1]

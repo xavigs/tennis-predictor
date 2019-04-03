@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 49:
+    if country.text.strip() and index == 52:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -62,13 +62,6 @@ for index, country in enumerate(countries):
         pprint(country_players)
 
         print("Nº de jugadors: " + str(len(country_players)))
-
-        country_players.remove('TA22')
-        player_te = dict()
-        player_te['keyword'] = "roman-tudoreanu"
-        player_te['te_name'] = "Tudoreanu Roman"
-        player_te['te_url'] = "/player/tudoreanu/"
-        players_te.append(player_te)
 
         # Web scraping - Country players list from Tennis Explorer
         end_pages = False

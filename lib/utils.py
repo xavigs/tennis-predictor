@@ -90,7 +90,7 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                     return index
 
             # 4th case
-            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol", "Tianjia": "Tian jia", "Weiqiang": "Wei Qiang", "Ruixuan": "Rui-Xuan", "Cortes": "Cortez", "Franco": "Franko", "Roko": "Rocco", "Al ": "Haitham ", "Tareq": "Tarek", "Jean Baptiste": "Jean-baptiste", "Giorgos": "George", "Hong-kit": "Hong Kit", "Vijay-Sundar": "N Vijay Sundar", "Prasanth": "Prashanth", "N. Sriram": "N.Sriram", "Yankel": "Yasha", " di ": " Di ", "Mathieu": "Matthieu", "De Rossi": "De rossi", "Dell'eva": "Dell'Eva", "Ryotaro": "Ryotero", "Kento": "Kent", "Serikzhan": "Serizhan", "Richards": "Rihards", "Laurinas": "Laurynas", "Andrés": "Andres", "De la": "De La", "Miguel-Angel": "Miguel Angel", "Van Den": "Van den", "van der": "Van Der", "MacKenzie": "Mackenzie", "Jose Statham": "Rubin Statham", "Andrzej": "Andriej", "Piotr": "Piort"}
+            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol", "Tianjia": "Tian jia", "Weiqiang": "Wei Qiang", "Ruixuan": "Rui-Xuan", "Cortes": "Cortez", "Franco": "Franko", "Roko": "Rocco", "Al ": "Haitham ", "Tareq": "Tarek", "Jean Baptiste": "Jean-baptiste", "Giorgos": "George", "Hong-kit": "Hong Kit", "Vijay-Sundar": "N Vijay Sundar", "Prasanth": "Prashanth", "N. Sriram": "N.Sriram", "Yankel": "Yasha", " di ": " Di ", "Mathieu": "Matthieu", "De Rossi": "De rossi", "Dell'eva": "Dell'Eva", "Ryotaro": "Ryotero", "Kento": "Kent", "Serikzhan": "Serizhan", "Richards": "Rihards", "Laurinas": "Laurynas", "Andrés": "Andres", "De la": "De La", "Miguel-Angel": "Miguel Angel", "Van Den": "Van den", "van der": "Van Der", "MacKenzie": "Mackenzie", "Jose Statham": "Rubin Statham", "Andrzej": "Andriej", "Piotr": "Piort", "Joalo": "João", "Frederico": "Fred"}
             new_value = value
 
             for orig_string, new_string in replace_dict.items():
@@ -276,6 +276,14 @@ def searchKeyDictionaryFromTE(matrix, key, value):
 
             if new_key == value.replace(" del ", " Del "):
                 print("Case 23")
+                return index
+
+        # 24th case
+        if len(explode_item) == 3:
+            new_key = explode_item[0] + " " + explode_item[2]
+
+            if new_key == value:
+                print("Case 24")
                 return index
 
     return False

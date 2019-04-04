@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 58:
+    if country.text.strip() and index == 61:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -57,8 +57,7 @@ for index, country in enumerate(countries):
         country_players = []
 
         for atp_id, player in players_db.items():
-#            if player['country'] == utils.replaceMultiple2(country_pycountry.alpha_3, abbr_pycountry, abbr_atp):
-            if player['country'] == 'NMI':
+            if player['country'] == utils.replaceMultiple2(country_pycountry.alpha_3, abbr_pycountry, abbr_atp):
                 country_players.append(atp_id)
         pprint(country_players)
 

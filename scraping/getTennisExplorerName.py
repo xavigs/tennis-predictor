@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 61:
+    if country.text.strip() and index == 64:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:

@@ -35,7 +35,7 @@ for player in players:
     player_db['rankdate'] = str(player.player_rankdate)
     player_db['keyword'] = player.player_keyword
 
-    if not player.player_atpwt_id in players_db and player.player_name != None and player.player_atpwt_id != "N645":
+    if not player.player_atpwt_id in players_db and player.player_name != None:
         players_db[player.player_atpwt_id] = player_db
 
 # Get players by country from Tennis Explorer
@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 20:
+    if country.text.strip() and index == 23:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:

@@ -260,4 +260,22 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 print("Case 22")
                 return index
 
+        # 23th case
+        if len(explode_item) > 2:
+            new_key = ""
+            x = 0
+
+            for word in explode_item:
+                if x < len(explode_item) - 1:
+                    if x > 0:
+                        new_key += " "
+
+                    new_key += word
+
+                x += 1
+
+            if new_key == value.replace(" del ", " Del "):
+                print("Case 23")
+                return index
+
     return False

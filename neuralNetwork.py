@@ -74,7 +74,7 @@ class NeuralNetwork:
                 for i, item in enumerate(origin):
                     coef = self.predict(item)
 
-                    if coef[0] < 0.5 and y[i][0] == 1 or coef[0] > 0.5 and y[i][0] == 0:
+                    if coef[0] < 0.5 and y[i][0] == 1 or coef[0] >= 0.5 and y[i][0] == 0:
                         total_errors += 1
 
                 pct_errors = round((total_errors * 100) / total_items, 2)
@@ -82,6 +82,7 @@ class NeuralNetwork:
 
                 # Predicció
                 global Z
+                global sol
                 global values_predicted
                 total_errors = 0
                 total_items = len(Z)
@@ -89,7 +90,7 @@ class NeuralNetwork:
                 for i, item in enumerate(Z):
                     coef = self.predict(item)
 
-                    if coef[0] < 0.5 and y[i][0] == 1 or coef[0] > 0.5 and y[i][0] == 0:
+                    if coef[0] < 0.5 and sol[i][0] == 1 or coef[0] >= 0.5 and sol[i][0] == 0:
                         total_errors += 1
 
                 pct_errors = round((total_errors * 100) / total_items, 2)
@@ -114,8 +115,8 @@ class NeuralNetwork:
 # Test app
 values = []
 values_predicted = []
-num_epochs = 1000000
-nn = NeuralNetwork([4, 3, 2], activation = 'tanh')
+num_epochs = 30000
+nn = NeuralNetwork([26, 8, 2], activation = 'sigmoid')
 games = []
 predict = []
 games_names = ["Isner vs Aliassime"]
@@ -211,26 +212,70 @@ predict.append(isn_ali)
 nasos = []
 for game in games:
     nas = []
-    nas.append(game[6] / 1000)
-    nas.append(game[7] / 1000)
-    nas.append(game[18] / 100)
-    nas.append(game[19] / 100)
+    nas.append(round(game[0] / 2000, 2))
+    nas.append(round(game[1] / 7, 2))
+    nas.append(game[2])
+    nas.append(game[3])
+    nas.append(round(game[4] / 45, 2))
+    nas.append(round(game[5] / 45, 2))
+    nas.append(round(game[6] / 1000, 2))
+    nas.append(round(game[7] / 1000, 2))
+    nas.append(round(game[8] / 1000, 2))
+    nas.append(round(game[9] / 1000, 2))
+    nas.append(round(game[10] / 1000, 2))
+    nas.append(round(game[11] / 1000, 2))
+    nas.append(round(game[12] / 100, 2))
+    nas.append(round(game[13] / 100, 2))
+    nas.append(round(game[14] / 100, 2))
+    nas.append(round(game[15] / 100, 2))
+    nas.append(round(game[16] / 100, 2))
+    nas.append(round(game[17] / 100, 2))
+    nas.append(round(game[18] / 100, 2))
+    nas.append(round(game[19] / 100, 2))
+    nas.append(round(game[20] / 100, 2))
+    nas.append(round(game[21] / 100, 2))
+    nas.append(round(game[22] / 2000, 2))
+    nas.append(round(game[23] / 2000, 2))
+    nas.append(round(game[24] / 2000, 2))
+    nas.append(round(game[25] / 2000, 2))
     nasos.append(nas)
 
 juasos = []
 for predict_item in predict:
     juas = []
-    juas.append(predict_item[6] / 1000)
-    juas.append(predict_item[7] / 1000)
-    juas.append(predict_item[18] / 100)
-    juas.append(predict_item[19] / 100)
+    juas.append(round(predict_item[0] / 2000, 2))
+    juas.append(round(predict_item[1] / 7, 2))
+    juas.append(predict_item[2])
+    juas.append(predict_item[3])
+    juas.append(round(predict_item[4] / 45, 2))
+    juas.append(round(predict_item[5] / 45, 2))
+    juas.append(round(predict_item[6] / 1000, 2))
+    juas.append(round(predict_item[7] / 1000, 2))
+    juas.append(round(predict_item[8] / 1000, 2))
+    juas.append(round(predict_item[9] / 1000, 2))
+    juas.append(round(predict_item[10] / 1000, 2))
+    juas.append(round(predict_item[11] / 1000, 2))
+    juas.append(round(predict_item[12] / 100, 2))
+    juas.append(round(predict_item[13] / 100, 2))
+    juas.append(round(predict_item[14] / 100, 2))
+    juas.append(round(predict_item[15] / 100, 2))
+    juas.append(round(predict_item[16] / 100, 2))
+    juas.append(round(predict_item[17] / 100, 2))
+    juas.append(round(predict_item[18] / 100, 2))
+    juas.append(round(predict_item[19] / 100, 2))
+    juas.append(round(predict_item[20] / 100, 2))
+    juas.append(round(predict_item[21] / 100, 2))
+    juas.append(round(predict_item[22] / 2000, 2))
+    juas.append(round(predict_item[23] / 2000, 2))
+    juas.append(round(predict_item[24] / 2000, 2))
+    juas.append(round(predict_item[25] / 2000, 2))
     juasos.append(juas)
 
 #np.set_printoptions(suppress=True)
 X = np.array(nasos)
-y = np.array([[0, 1], [0, 1], [0, 1], [1, 0], [0, 1], [1, 0], [0, 1], [0, 1], [0, 1], [0, 1], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0]])
+y = np.array([[1, 0], [1, 0], [1, 0], [0, 1], [1, 0], [0, 1], [1, 0], [1, 0], [1, 0], [1, 0], [0, 1], [0, 1], [0, 1], [0, 1], [0, 1], [0, 1]])
 Z = np.array(juasos)
-sol = np.array([[0, 1], [0, 1], [0, 1], [0, 1], [0, 1]])
+sol = np.array([[1, 0], [1, 0], [1, 0], [1, 0], [1, 0]])
 
 index = 0
 
@@ -276,7 +321,7 @@ for e in Z:
 
 # Gràfica
 plt.figure("The Beast Training")
-plt.title("Test 05/04/2019")
+plt.title("Test 07/04/2019")
 
 index = 0
 axes = []

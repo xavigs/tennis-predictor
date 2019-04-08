@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 59:
+    if country.text.strip() and index == 62:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -111,7 +111,7 @@ for index, country in enumerate(countries):
             print(Back.YELLOW + Fore.BLACK + "Falta trobar el mestre " + players_db[atp_id]['name'] + "(" + atp_id + ")")
 
 # Update
-doUpdate = True
+doUpdate = False
 
 if doUpdate:
     print(Style.RESET_ALL)

@@ -88,7 +88,7 @@ for index, country in enumerate(countries):
                         te_name = list(player.select("td"))[1].text.strip().split(", ")
                         atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
 
-                        if atp_id and te_name[1] + " " + te_name[0] != "Agustin Moreno":
+                        if atp_id and te_name[1] + " " + te_name[0] != "Trevor Johnson" and te_name[1] + " " + te_name[0] != "Hunter Nicholas" and te_name[1] + " " + te_name[0] != "Jordan Parker":
                             print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!! (" + players_db[atp_id]['rankdate'] + ") - " + list(player.select("a"))[0]['href'])
                             print(atp_id)
 
@@ -111,7 +111,7 @@ for index, country in enumerate(countries):
             print(Back.YELLOW + Fore.BLACK + "Falta trobar el mestre " + players_db[atp_id]['name'] + "(" + atp_id + ")")
 
 # Update
-doUpdate = False
+doUpdate = True
 
 if doUpdate:
     print(Style.RESET_ALL)

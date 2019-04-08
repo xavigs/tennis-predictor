@@ -90,7 +90,7 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                     return index
 
             # 4th case
-            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol", "Tianjia": "Tian jia", "Weiqiang": "Wei Qiang", "Ruixuan": "Rui-Xuan", "Cortes": "Cortez", "Franco": "Franko", "Roko": "Rocco", "Al ": "Haitham ", "Tareq": "Tarek", "Jean Baptiste": "Jean-baptiste", "Giorgos": "George", "Hong-kit": "Hong Kit", "Vijay-Sundar": "N Vijay Sundar", "Prasanth": "Prashanth", "N. Sriram": "N.Sriram", "Yankel": "Yasha", " di ": " Di ", "Mathieu": "Matthieu", "De Rossi": "De rossi", "Dell'eva": "Dell'Eva", "Ryotaro": "Ryotero", "Kento": "Kent", "Serikzhan": "Serizhan", "Richards": "Rihards", "Laurinas": "Laurynas", "Andrés": "Andres", "De la": "De La", "Miguel-Angel": "Miguel Angel", "Van Den": "Van den", "van der": "Van der", "MacKenzie": "Mackenzie", "Jose Statham": "Rubin Statham", "Andrzej": "Andriej", "Piotr": "Piort", "Joalo": "João", "Frederico": "Fred", "Cristian": "Kristian", "Philip": "Philipp", "Nikala": "Nicolaas", "Teimuraz": "Teymuraz", "Matsukevitch": "Matsukevich", "Kiuamov": "Kiyamov", "Zaitsev": "Zaitcev", "Denys": "Denis", "Alexei": "Alexey", "Igor": "Egor", "Yuri": "Yury", "Vassiliev": "Vasiliev", "Vartanian": "Vartanyan", "Slobodshikov": "Slobodchikov", "Yakovlev": "Iakovlev", "Andrey": "Andrei", "Milan": "Miljan", "Seungri": "Seung-Ri", "Dukyoung": "Duk-Young", "Duck Hee": "Duckhee", "Chan-Yeong": "Chan-yeong", "Hyoek": "Hyeok", "Sang Yeop": "Sang-Yuop", "Soon Woo": "Soonwoo", "Hogi": "Ho-Gi", "Seong Woon": "Seong-woon", "Byung-kook": "Byung-Kook", "Seong Chan": "Seong-chan", "Martinavarr": "Martinavarro", "Bonet-De": "Bonet-de", "Aguilla": "Aguila", "Augustin Boje": "Agustin Boje-Ordonez", "Iouri Sant": "Yuri", "Manzarbeitia-Ugarte": "Manzarbeitia-Ugate", "Munoz-De La Nava": "Munoz de la Nava", "Olaso-De La Rica": "Olaso", "Jose Anton Salazar Martin": "Jose Antonio Salazar Martin", "Yu-Chang": "Yu chang", "Tung-lin": "Tung-Lin", "Yeu-Tzuoo": "Jimmy", "Chien Hsun": "Chien-hsun", "Yen-hsun": "Yen-Hsun", "Sookton-Eng": "Sookton-eng", "Peraklat": "Peerakiat", "Isarow": "Isaro", "Pylyp": "Filipp", "Dmytro": "Dmitro", "Ilya": "Illya", "Mykyta": "Nikita", "Uzhylovsky": "Uzhylovskyi"}
+            replace_dict = {"Julien": "Julian", "Marco": "Marko", "Brinkman": "Brinkmann", "Flavius": "flavius", "Samuel": "Sam", "Brendan": "Brendon", "Joshua": "Josh", "Matt": "Matthew", "Philipp": "Philip", "Alexander": "Aliaksandr", "Vladzimir": "Vladimir", "Segey": "Sergey", "Aleksandr": "Aliaksandr", "loic": "Loic", "Sant'Anna": "Santanna", "Vinícius": "Vinicius", "Aleksandar": "Alexandar", "Zack": "Zachary", "McNicol": "Mcnicol", "Tianjia": "Tian jia", "Weiqiang": "Wei Qiang", "Ruixuan": "Rui-Xuan", "Cortes": "Cortez", "Franco": "Franko", "Roko": "Rocco", "Al ": "Haitham ", "Tareq": "Tarek", "Jean Baptiste": "Jean-baptiste", "Giorgos": "George", "Hong-kit": "Hong Kit", "Vijay-Sundar": "N Vijay Sundar", "Prasanth": "Prashanth", "N. Sriram": "N.Sriram", "Yankel": "Yasha", " di ": " Di ", "Mathieu": "Matthieu", "De Rossi": "De rossi", "Dell'eva": "Dell'Eva", "Ryotaro": "Ryotero", "Kento": "Kent", "Serikzhan": "Serizhan", "Richards": "Rihards", "Laurinas": "Laurynas", "Andrés": "Andres", "De la": "De La", "Miguel-Angel": "Miguel Angel", "Van Den": "Van den", "van der": "Van der", "MacKenzie": "Mackenzie", "Jose Statham": "Rubin Statham", "Andrzej": "Andriej", "Piotr": "Piort", "Joalo": "João", "Frederico": "Fred", "Cristian": "Kristian", "Philip": "Philipp", "Nikala": "Nicolaas", "Teimuraz": "Teymuraz", "Matsukevitch": "Matsukevich", "Kiuamov": "Kiyamov", "Zaitsev": "Zaitcev", "Denys": "Denis", "Alexei": "Alexey", "Igor": "Egor", "Yuri": "Yury", "Vassiliev": "Vasiliev", "Vartanian": "Vartanyan", "Slobodshikov": "Slobodchikov", "Yakovlev": "Iakovlev", "Andrey": "Andrei", "Milan": "Miljan", "Seungri": "Seung-Ri", "Dukyoung": "Duk-Young", "Duck Hee": "Duckhee", "Chan-Yeong": "Chan-yeong", "Hyoek": "Hyeok", "Sang Yeop": "Sang-Yuop", "Soon Woo": "Soonwoo", "Hogi": "Ho-Gi", "Seong Woon": "Seong-woon", "Byung-kook": "Byung-Kook", "Seong Chan": "Seong-chan", "Martinavarr": "Martinavarro", "Bonet-De": "Bonet-de", "Aguilla": "Aguila", "Augustin Boje": "Agustin Boje-Ordonez", "Iouri Sant": "Yuri", "Manzarbeitia-Ugarte": "Manzarbeitia-Ugate", "Munoz-De La Nava": "Munoz de la Nava", "Olaso-De La Rica": "Olaso", "Jose Anton Salazar Martin": "Jose Antonio Salazar Martin", "Yu-Chang": "Yu chang", "Tung-lin": "Tung-Lin", "Yeu-Tzuoo": "Jimmy", "Chien Hsun": "Chien-hsun", "Yen-hsun": "Yen-Hsun", "Sookton-Eng": "Sookton-eng", "Peraklat": "Peerakiat", "Isarow": "Isaro", "Pylyp": "Filipp", "Dmytro": "Dmitro", "Ilya": "Illya", "Mykyta": "Nikita", "Uzhylovsky": "Uzhylovskyi", "Quinton": "Quinnton", "joseph": "Joseph", "Mccarthy": "McCarthy", "McMorrow": "Mcmorrow", "McCoy": "Mccoy", "De Heart": "DeHeart", "Francis": "Frances", "McNally": "Mcnally", "Nicolas": "Nicholas", "McDaniels": "Mcdaniels", "Dennis": "Denis", "Nick": "Nicholas"}
             new_value = value
 
             for orig_string, new_string in replace_dict.items():
@@ -311,6 +311,22 @@ def searchKeyDictionaryFromTE(matrix, key, value):
 
             if new_key == value:
                 print("Case 27")
+                return index
+
+        # 28th case
+        if len(explode) == 2:
+            new_value = explode[1] + " " + explode[0]
+
+            if item[key] == new_value:
+                print("Case 28")
+                return index
+
+        # 29th case
+        if len(explode) == 4:
+            new_value = explode[1] + " " + explode[3]
+
+            if item[key] == new_value:
+                print("Case 29")
                 return index
 
     return False

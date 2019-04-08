@@ -338,3 +338,6 @@ plt.ylabel('Error')
 plt.xlabel('Training Time')
 plt.tight_layout()
 plt.show()
+
+# Mostrar pesos
+# nn.print_weights()

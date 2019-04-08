@@ -47,7 +47,7 @@ countries = soup.select("tbody#rank-country td a")
 
 for index, country in enumerate(countries):
     # Test from specific country
-    if country.text.strip() and index == 35:
+    if country.text.strip() and index == 62:
         country_pycountry = pycountry.countries.get(name=country.text.strip())
 
         if country_pycountry is None:
@@ -62,14 +62,7 @@ for index, country in enumerate(countries):
         pprint(country_players)
 
         print("Nº de jugadors: " + str(len(country_players)))
-        '''
-        country_players.remove("KC76")
-        player_te = dict()
-        player_te['keyword'] = "duk-young-kim"
-        player_te['te_name'] = "Kim Dukyoung"
-        player_te['te_url'] = "/player/kim-d3559/"
-        players_te.append(player_te)
-        '''
+
         # Web scraping - Country players list from Tennis Explorer
         end_pages = False
         while not end_pages:
@@ -95,7 +88,7 @@ for index, country in enumerate(countries):
                         te_name = list(player.select("td"))[1].text.strip().split(", ")
                         atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
 
-                        if atp_id and te_name[1] + " " + te_name[0] != "Luis Diaz" and te_name[1] + " " + te_name[0] != "Borja Rodriguez" and te_name[1] + " " + te_name[0] != "Pol Fernandez":
+                        if atp_id and te_name[1] + " " + te_name[0] != "Agustin Moreno":
                             print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!! (" + players_db[atp_id]['rankdate'] + ") - " + list(player.select("a"))[0]['href'])
                             print(atp_id)
 
@@ -118,7 +111,7 @@ for index, country in enumerate(countries):
             print(Back.YELLOW + Fore.BLACK + "Falta trobar el mestre " + players_db[atp_id]['name'] + "(" + atp_id + ")")
 
 # Update
-doUpdate = True
+doUpdate = False
 
 if doUpdate:
     print(Style.RESET_ALL)

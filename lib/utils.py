@@ -303,4 +303,12 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 print("Case 26")
                 return index
 
+        # 27th case
+        if len(explode_item) == 3:
+            new_key = explode_item[1] + " " + explode_item[2]
+
+            if new_key == value:
+                print("Case 27")
+                return index
+
     return False

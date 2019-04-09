@@ -14,10 +14,10 @@ init() # Init colorama
 countries = dict()
 players_db = dict()
 players_te = []
-countries_pycountry = ["Bolivia, Plurinational State of", "Bosnia and Herzegovina", "Czechia", "Dominican Republic", "United Kingdom", "Macedonia, Republic of", "Moldova, Republic of", "Papua New Guinea", "South Africa", "Russian Federation", "Korea, Republic of", "Taiwan, Province of China", "Tunisia", "United States", "Venezuela, Bolivarian Republic of", "Viet Nam"]
-countries_te = ["Bolivia", "Bosnia and Herzeg.", "Czech Republic", "Dominican Rep.", "Great Britain", "Macedonia", "Moldavsko", "Papua N. Guinea", "RSA", "Russia", "South Korea", "Taipei (CHN)", "Tunis", "USA", "Venezuela", "Vietnam"]
-abbr_pycountry = ["BGR", "BRB", "CHE", "CHL", "DEU", "DNK", "GRC", "HRV", "IDN", "LVA", "MCO", "NGA", "NLD", "OMN", "PRI", "PRT", "PRY", "SLV", "SVN", "TWN", "URY", "VNM", "ZAF", "ZWE"]
-abbr_atp = ["BUL", "BAR", "SUI", "CHI", "GER", "DEN", "GRE", "CRO", "INA", "LAT", "MON", "NGR", "NED", "OMA", "PUR", "POR", "PAR", "ESA", "SLO", "TPE", "URU", "VIE", "RSA", "ZIM"]
+countries_pycountry = ["Bolivia, Plurinational State of", "Bosnia and Herzegovina", "Czechia", "Dominican Republic", "United Kingdom", "Iran, Islamic Republic of", "Macedonia, Republic of", "Moldova, Republic of", "Papua New Guinea", "South Africa", "Russian Federation", "Korea, Republic of", "Taiwan, Province of China", "Tunisia", "United States", "Venezuela, Bolivarian Republic of", "Viet Nam"]
+countries_te = ["Bolivia", "Bosnia and Herzeg.", "Czech Republic", "Dominican Rep.", "Great Britain", "Iran", "Macedonia", "Moldavsko", "Papua N. Guinea", "RSA", "Russia", "South Korea", "Taipei (CHN)", "Tunis", "USA", "Venezuela", "Vietnam"]
+abbr_pycountry = ["BGR", "BRB", "CHE", "CHL", "DEU", "DNK", "GRC", "HRV", "IDN", "IRN", "LVA", "MCO", "NGA", "NLD", "OMN", "PRI", "PRT", "PRY", "SLV", "SVN", "TWN", "URY", "VNM", "ZAF", "ZWE"]
+abbr_atp = ["BUL", "BAR", "SUI", "CHI", "GER", "DEN", "GRE", "CRO", "INA", "IRI", "LAT", "MON", "NGR", "NED", "OMA", "PUR", "POR", "PAR", "ESA", "SLO", "TPE", "URU", "VIE", "RSA", "ZIM"]
 page = 1
 
 # Get players from DB
@@ -44,17 +44,18 @@ for player in players:
         else:
             countries[player.player_country] = 1
 
-        #if player.player_country == "IRL":
+        #if player.player_country == "IRI":
             #print(player.player_name)
 '''
 for country, count in countries.items():
     print(country, count)
 
 print("Nº Players => " + str(num_players))
+#print(list(pycountry.countries))
 exit()
 '''
-country = "Ireland"
-country_url = "ireland"
+country = "Iran"
+country_url = "iran"
 country_pycountry = pycountry.countries.get(name=country)
 
 if country_pycountry is None:
@@ -74,6 +75,7 @@ print("Nº de jugadors: " + str(len(country_players)))
 
 # Web scraping - Country players list from Tennis Explorer
 end_pages = False
+
 while not end_pages:
     url = "https://www.tennisexplorer.com/list-players/?country=" + country_url + "&page=" + str(page) + "&order=rank"
     r = requests.get(url)

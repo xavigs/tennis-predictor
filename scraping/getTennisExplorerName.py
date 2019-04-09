@@ -65,6 +65,7 @@ for index, country in enumerate(countries):
 
         # Web scraping - Country players list from Tennis Explorer
         end_pages = False
+        
         while not end_pages:
             url = "https://www.tennisexplorer.com/list-players/" + country.get('href') + "&page=" + str(page) + "&order=rank"
             r = requests.get(url)

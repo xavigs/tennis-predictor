@@ -16,8 +16,8 @@ players_db = dict()
 players_te = []
 countries_pycountry = ["Bolivia, Plurinational State of", "Bosnia and Herzegovina", "Czechia", "Dominican Republic", "United Kingdom", "Iran, Islamic Republic of", "Macedonia, Republic of", "Moldova, Republic of", "Papua New Guinea", "South Africa", "Russian Federation", "Korea, Republic of", "Taiwan, Province of China", "Tunisia", "United States", "Venezuela, Bolivarian Republic of", "Viet Nam"]
 countries_te = ["Bolivia", "Bosnia and Herzeg.", "Czech Republic", "Dominican Rep.", "Great Britain", "Iran", "Macedonia", "Moldavsko", "Papua N. Guinea", "RSA", "Russia", "South Korea", "Taipei (CHN)", "Tunis", "USA", "Venezuela", "Vietnam"]
-abbr_pycountry = ["BGR", "BRB", "CHE", "CHL", "DEU", "DNK", "GRC", "HRV", "IDN", "IRN", "LVA", "MCO", "NGA", "NLD", "OMN", "PRI", "PRT", "PRY", "SLV", "SVN", "TWN", "URY", "VNM", "ZAF", "ZWE"]
-abbr_atp = ["BUL", "BAR", "SUI", "CHI", "GER", "DEN", "GRE", "CRO", "INA", "IRI", "LAT", "MON", "NGR", "NED", "OMA", "PUR", "POR", "PAR", "ESA", "SLO", "TPE", "URU", "VIE", "RSA", "ZIM"]
+abbr_pycountry = ["BGR", "BRB", "CHE", "CHL", "DEU", "DNK", "DZA", "GRC", "HRV", "IDN", "IRN", "LVA", "MCO", "NGA", "NLD", "OMN", "PRI", "PRT", "PRY", "SLV", "SVN", "TWN", "URY", "VNM", "ZAF", "ZWE"]
+abbr_atp = ["BUL", "BAR", "SUI", "CHI", "GER", "DEN", "ALG", "GRE", "CRO", "INA", "IRI", "LAT", "MON", "NGR", "NED", "OMA", "PUR", "POR", "PAR", "ESA", "SLO", "TPE", "URU", "VIE", "RSA", "ZIM"]
 page = 1
 
 # Get players from DB
@@ -44,7 +44,7 @@ for player in players:
         else:
             countries[player.player_country] = 1
 
-        #if player.player_country == "IRI":
+        #if player.player_country == "ALG":
             #print(player.player_name)
 '''
 for country, count in countries.items():
@@ -54,8 +54,8 @@ print("Nº Players => " + str(num_players))
 #print(list(pycountry.countries))
 exit()
 '''
-country = "Iran"
-country_url = "iran"
+country = "Algeria"
+country_url = "algeria"
 country_pycountry = pycountry.countries.get(name=country)
 
 if country_pycountry is None:
@@ -99,7 +99,7 @@ while not end_pages:
                 te_name = list(player.select("td"))[1].text.strip().split(", ")
                 atp_id = utils.searchKeyDictionaryByValue(players_db, "name", te_name[1] + " " + te_name[0], True)
 
-                if atp_id and te_name[1] + " " + te_name[0] != "Rafael Coutinho" and te_name[1] + " " + te_name[0] != "Luis Ramirez":
+                if atp_id and te_name[1] + " " + te_name[0] != "Mohamed Hassan":
                     print("Jugador localitzat: " + te_name[1] + " " + te_name[0] + "!!! (" + players_db[atp_id]['rankdate'] + ") - " + list(player.select("a"))[0]['href'])
                     print(atp_id)
 

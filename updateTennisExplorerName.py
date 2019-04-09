@@ -38,6 +38,7 @@ for player in players:
     if player.player_te_name == "BLANK" and player.player_atpwt_id not in players_db:
         num_players += 1
         players_db[player.player_atpwt_id] = player_db
+        #print(str(num_players) + ". " + player.player_name + "(" + player.player_country + ") => " + player.player_keyword)
 
         if player.player_country in countries:
             countries[player.player_country] += 1
@@ -46,15 +47,17 @@ for player in players:
 
         #if player.player_country == "KUW":
             #print(player.player_name)
+#exit()
 '''
 countries = sorted(countries.items(), key=lambda kv: kv[1], reverse=True)
 for country, count in countries:
     print(country, count)
 
 print("Nº Players => " + str(num_players))
+print("Nº Countries => " + str(len(countries)))
 #print(list(pycountry.countries))
 exit()
-'''
+
 country = "Benin"
 country_url = "benin"
 country_pycountry = pycountry.countries.get(name=country)
@@ -123,7 +126,7 @@ for atp_id in country_players:
     print(Back.YELLOW + Fore.BLACK + "Falta trobar el mestre " + players_db[atp_id]['name'] + "(" + atp_id + ")")
 
 # Update
-doUpdate = True
+doUpdate = False
 
 if doUpdate:
     print(Style.RESET_ALL)
@@ -146,6 +149,71 @@ if doUpdate:
 
             print(update)
             session.execute(update)
+'''
+# Update players manually
+atp_keywords = []
+te_names = []
+te_urls = []
+#1
+atp_keywords.append("mikayel-avetisyan")
+te_names.append("Avetisyan Mikayel")
+te_urls.append("/player/avetisyan-29501/")
+#2
+atp_keywords.append("hasan-abdulnabi")
+te_names.append("Abdul-Nabi Hasan")
+te_urls.append("/player/abdul-nabi/")
+#3
+atp_keywords.append("duncan-mugabe")
+te_names.append("Mugabe Duncan")
+te_urls.append("/player/mugabe/")
+#4
+atp_keywords.append("nicolas-ancedy")
+te_names.append("Ancedy Nicolas")
+te_urls.append("/player/ancedy/")
+#5
+atp_keywords.append("diego-garcia-dalisay")
+te_names.append("Garcia Dalisay Diego")
+te_urls.append("/player/garcia-dalisay/")
+#6
+atp_keywords.append("mlapa-akomlo")
+te_names.append("Akomlo Mlapa Tingou")
+te_urls.append("/player/akomlo/")
+#7
+atp_keywords.append("jia-hong-shen")
+te_names.append("Shen Jia-Hong")
+te_urls.append("/player/shen-ef500/")
+#8
+atp_keywords.append("christian-vitulli")
+te_names.append("Vitulli Christian")
+te_urls.append("/player/vitulli/")
+#9
+atp_keywords.append("laurent-recouderc")
+te_names.append("Recouderc Laurent")
+te_urls.append("/player/recouderc/")
+#10
+atp_keywords.append("ognian-kolev")
+te_names.append("Kolev Ognian")
+te_urls.append("/player/kolev/")
+
+print(Fore.GREEN + Style.BRIGHT)
+
+for index, keyword in enumerate(atp_keywords):
+    rankdates = []
+    query = "SELECT player_rankdate FROM player_by_keyword WHERE player_keyword = '" + keyword + "'"
+    ranks = session.execute(query)
+
+    for rank in ranks:
+        rankdates.append(rank.player_rankdate)
+
+    for rankdate in rankdates:
+        update = "UPDATE player_by_keyword "\
+                 "SET player_te_name = '" + te_names[index] + "', "\
+                 "player_te_url = '" + te_urls[index] + "' "\
+                 "WHERE player_keyword = '" + keyword + "' "\
+                 "AND player_rankdate = '" + str(rankdate) + "'"
+
+        print(update)
+        session.execute(update)
 
 # Close connections
 session.shutdown()

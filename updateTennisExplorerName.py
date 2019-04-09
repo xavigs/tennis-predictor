@@ -55,8 +55,8 @@ print("Nº Players => " + str(num_players))
 #print(list(pycountry.countries))
 exit()
 '''
-country = "Pakistan"
-country_url = "pakistan"
+country = "Benin"
+country_url = "benin"
 country_pycountry = pycountry.countries.get(name=country)
 
 if country_pycountry is None:

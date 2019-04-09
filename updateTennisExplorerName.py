@@ -16,8 +16,8 @@ players_db = dict()
 players_te = []
 countries_pycountry = ["Bolivia, Plurinational State of", "Bosnia and Herzegovina", "Czechia", "Dominican Republic", "United Kingdom", "Macedonia, Republic of", "Moldova, Republic of", "Papua New Guinea", "South Africa", "Russian Federation", "Korea, Republic of", "Taiwan, Province of China", "Tunisia", "United States", "Venezuela, Bolivarian Republic of", "Viet Nam"]
 countries_te = ["Bolivia", "Bosnia and Herzeg.", "Czech Republic", "Dominican Rep.", "Great Britain", "Macedonia", "Moldavsko", "Papua N. Guinea", "RSA", "Russia", "South Korea", "Taipei (CHN)", "Tunis", "USA", "Venezuela", "Vietnam"]
-abbr_pycountry = ["BGR", "BRB", "CHE", "CHL", "DEU", "DNK", "GRC", "HRV", "LVA", "MCO", "NGA", "NLD", "OMN", "PRI", "PRT", "PRY", "SLV", "SVN", "TWN", "URY", "VNM", "ZAF", "ZWE"]
-abbr_atp = ["BUL", "BAR", "SUI", "CHI", "GER", "DEN", "GRE", "CRO", "LAT", "MON", "NGR", "NED", "OMA", "PUR", "POR", "PAR", "ESA", "SLO", "TPE", "URU", "VIE", "RSA", "ZIM"]
+abbr_pycountry = ["BGR", "BRB", "CHE", "CHL", "DEU", "DNK", "GRC", "HRV", "IDN", "LVA", "MCO", "NGA", "NLD", "OMN", "PRI", "PRT", "PRY", "SLV", "SVN", "TWN", "URY", "VNM", "ZAF", "ZWE"]
+abbr_atp = ["BUL", "BAR", "SUI", "CHI", "GER", "DEN", "GRE", "CRO", "INA", "LAT", "MON", "NGR", "NED", "OMA", "PUR", "POR", "PAR", "ESA", "SLO", "TPE", "URU", "VIE", "RSA", "ZIM"]
 page = 1
 
 # Get players from DB
@@ -26,6 +26,7 @@ session = cluster.connect("beast")
 
 query = "SELECT player_keyword, player_atpwt_id, player_name, player_country, player_rankdate, player_te_name, player_te_url FROM player_by_keyword"
 players = session.execute(query)
+num_players = 0
 
 for player in players:
     player_db = dict()
@@ -35,18 +36,27 @@ for player in players:
     player_db['keyword'] = player.player_keyword
 
     if player.player_te_name == "BLANK" and player.player_atpwt_id not in players_db:
+        num_players += 1
         players_db[player.player_atpwt_id] = player_db
 
         if player.player_country in countries:
             countries[player.player_country] += 1
         else:
             countries[player.player_country] = 1
+
+        #if player.player_country == "INA":
+            #print(player.player_name)
+
 '''
 for country, count in countries.items():
     print(country, count)
+
+print("Nº Players => " + str(num_players))
+exit()
 '''
-country = "Nigeria"
-country_url = "nigeria"
+
+country = "Indonesia"
+country_url = "indonesia"
 country_pycountry = pycountry.countries.get(name=country)
 
 if country_pycountry is None:
@@ -112,7 +122,7 @@ for atp_id in country_players:
     print(Back.YELLOW + Fore.BLACK + "Falta trobar el mestre " + players_db[atp_id]['name'] + "(" + atp_id + ")")
 
 # Update
-doUpdate = False
+doUpdate = True
 
 if doUpdate:
     print(Style.RESET_ALL)

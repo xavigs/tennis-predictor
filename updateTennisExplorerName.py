@@ -16,8 +16,8 @@ players_db = dict()
 players_te = []
 countries_pycountry = ["Bolivia, Plurinational State of", "Bosnia and Herzegovina", "Czechia", "Dominican Republic", "United Kingdom", "Iran, Islamic Republic of", "Macedonia, Republic of", "Moldova, Republic of", "Papua New Guinea", "South Africa", "Russian Federation", "Korea, Republic of", "Taiwan, Province of China", "Tunisia", "United States", "Venezuela, Bolivarian Republic of", "Viet Nam"]
 countries_te = ["Bolivia", "Bosnia and Herzeg.", "Czech Republic", "Dominican Rep.", "Great Britain", "Iran", "Macedonia", "Moldavsko", "Papua N. Guinea", "RSA", "Russia", "South Korea", "Taipei (CHN)", "Tunis", "USA", "Venezuela", "Vietnam"]
-abbr_pycountry = ["BGR", "BRB", "CHE", "CHL", "DEU", "DNK", "DZA", "GRC", "HRV", "IDN", "IRN", "KWT", "LVA", "MCO", "NGA", "NLD", "OMN", "PRI", "PRT", "PRY", "SLV", "SVN", "TWN", "URY", "VNM", "ZAF", "ZWE"]
-abbr_atp = ["BUL", "BAR", "SUI", "CHI", "GER", "DEN", "ALG", "GRE", "CRO", "INA", "IRI", "KUW", "LAT", "MON", "NGR", "NED", "OMA", "PUR", "POR", "PAR", "ESA", "SLO", "TPE", "URU", "VIE", "RSA", "ZIM"]
+abbr_pycountry = ["BGR", "BRB", "CHE", "CHL", "DEU", "DNK", "DZA", "GRC", "HRV", "IDN", "IRN", "KWT", "LVA", "MCO", "NGA", "NLD", "OMN", "PHL", "PRI", "PRT", "PRY", "SLV", "SVN", "TWN", "URY", "VNM", "ZAF", "ZWE"]
+abbr_atp = ["BUL", "BAR", "SUI", "CHI", "GER", "DEN", "ALG", "GRE", "CRO", "INA", "IRI", "KUW", "LAT", "MON", "NGR", "NED", "OMA", "PHI", "PUR", "POR", "PAR", "ESA", "SLO", "TPE", "URU", "VIE", "RSA", "ZIM"]
 page = 1
 
 # Get players from DB
@@ -47,15 +47,16 @@ for player in players:
         #if player.player_country == "KUW":
             #print(player.player_name)
 '''
-for country, count in countries.items():
+countries = sorted(countries.items(), key=lambda kv: kv[1], reverse=True)
+for country, count in countries:
     print(country, count)
 
 print("Nº Players => " + str(num_players))
 #print(list(pycountry.countries))
 exit()
 '''
-country = "Kuwait"
-country_url = "kuwait"
+country = "Philippines"
+country_url = "philippines"
 country_pycountry = pycountry.countries.get(name=country)
 
 if country_pycountry is None:

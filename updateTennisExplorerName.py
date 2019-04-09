@@ -44,9 +44,8 @@ for player in players:
         else:
             countries[player.player_country] = 1
 
-        #if player.player_country == "INA":
+        #if player.player_country == "IRL":
             #print(player.player_name)
-
 '''
 for country, count in countries.items():
     print(country, count)
@@ -54,9 +53,8 @@ for country, count in countries.items():
 print("Nº Players => " + str(num_players))
 exit()
 '''
-
-country = "Indonesia"
-country_url = "indonesia"
+country = "Ireland"
+country_url = "ireland"
 country_pycountry = pycountry.countries.get(name=country)
 
 if country_pycountry is None:

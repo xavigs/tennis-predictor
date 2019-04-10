@@ -30,7 +30,7 @@ exit()
 '''
 
 # Get columns from the target table
-query = "SELECT * FROM system_schema.columns WHERE keyspace_name = 'beast' AND table_name = '" + target_table + "'"
+query = "SELECT * FROM system_schema.columns WHERE keyspace_name = 'beast' AND table_name = '" + orig_table + "'"
 schema_columns = session.execute(query)
 
 for schema_column in schema_columns:
@@ -50,26 +50,42 @@ query = "SELECT " + separator.join(column_names) + " FROM " + orig_table
 print(query)
 rows = session.execute(query)
 
+column_names.append("\"player_hand\"")
+column = dict()
+column['name'] = "player_hand"
+column['type'] = "tinyint"
+columns.append(column)
+
 for row in rows:
     row = list(row)
     print(row)
-    insert = "INSERT INTO " + target_table + " (" + separator.join(column_names) + ") VALUES ("
-    index = 0
-    values = []
 
-    for column in columns:
-        row[index] = str(row[index]).replace("'", "''")
+    if row[0] is None:
+        row[15] = str(row[15]).replace("'", "''")
+        delete = "DELETE FROM " + orig_table + " WHERE player_keyword = '" + row[15] + "' AND player_rankdate = '" + str(row[18]) + "'"
+        print(delete)
+        session.execute(delete)
+    else:
+        insert = "INSERT INTO " + target_table + " (" + separator.join(column_names) + ") VALUES ("
+        index = 0
+        values = []
 
-        if column['type'] == "text" or column['type'] == "date":
-            values.append("'" + row[index] + "'")
-        else:
-            values.append(row[index])
+        for column in columns:
+            if column['name'] == "player_hand":
+                values.append("2")
+            else:
+                row[index] = str(row[index]).replace("'", "''")
 
-        index += 1
+                if column['type'] == "text" or column['type'] == "date":
+                    values.append("'" + row[index] + "'")
+                else:
+                    values.append(row[index])
 
-    insert += separator.join(values) + ")"
-    print(insert)
-    session.execute(insert)
+            index += 1
+
+        insert += separator.join(values) + ")"
+        print(insert)
+        session.execute(insert)
 
 # Close connections
 session.shutdown()

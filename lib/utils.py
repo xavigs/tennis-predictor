@@ -330,3 +330,11 @@ def searchKeyDictionaryFromTE(matrix, key, value):
                 return index
 
     return False
+
+def getStringBetweenBrackets(s):
+    if "(" not in s or ")" not in s:
+        return False
+    else:
+        start = s.index("(") + 1
+        end = s.index(")")
+        return s[start:end]

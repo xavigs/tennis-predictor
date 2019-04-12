@@ -24,7 +24,7 @@ page = 1
 cluster = Cluster(["127.0.0.1"])
 session = cluster.connect("beast")
 
-query = "SELECT player_keyword, player_atpwt_id, player_name, player_country, player_rankdate, player_te_name, player_te_url FROM player_by_keyword"
+query = "SELECT player_keyword, player_atpwt_id, player_name, player_country, player_rankdate, player_te_name, player_te_url FROM player_by_atpid"
 players = session.execute(query)
 num_players = 0
 
@@ -151,65 +151,29 @@ if doUpdate:
             session.execute(update)
 '''
 # Update players manually
-atp_keywords = []
+atp_ids = []
 te_names = []
 te_urls = []
 #1
-atp_keywords.append("mikayel-avetisyan")
-te_names.append("Avetisyan Mikayel")
-te_urls.append("/player/avetisyan-29501/")
-#2
-atp_keywords.append("hasan-abdulnabi")
-te_names.append("Abdul-Nabi Hasan")
-te_urls.append("/player/abdul-nabi/")
-#3
-atp_keywords.append("duncan-mugabe")
-te_names.append("Mugabe Duncan")
-te_urls.append("/player/mugabe/")
-#4
-atp_keywords.append("nicolas-ancedy")
-te_names.append("Ancedy Nicolas")
-te_urls.append("/player/ancedy/")
-#5
-atp_keywords.append("diego-garcia-dalisay")
-te_names.append("Garcia Dalisay Diego")
-te_urls.append("/player/garcia-dalisay/")
-#6
-atp_keywords.append("mlapa-akomlo")
-te_names.append("Akomlo Mlapa Tingou")
-te_urls.append("/player/akomlo/")
-#7
-atp_keywords.append("jia-hong-shen")
-te_names.append("Shen Jia-Hong")
-te_urls.append("/player/shen-ef500/")
-#8
-atp_keywords.append("christian-vitulli")
-te_names.append("Vitulli Christian")
-te_urls.append("/player/vitulli/")
-#9
-atp_keywords.append("laurent-recouderc")
-te_names.append("Recouderc Laurent")
-te_urls.append("/player/recouderc/")
-#10
-atp_keywords.append("ognian-kolev")
-te_names.append("Kolev Ognian")
-te_urls.append("/player/kolev/")
+atp_ids.append("CH68")
+te_names.append("Childers Julian Allen")
+te_urls.append("/player/childers/")
 
 print(Fore.GREEN + Style.BRIGHT)
 
-for index, keyword in enumerate(atp_keywords):
+for index, atp_id in enumerate(atp_ids):
     rankdates = []
-    query = "SELECT player_rankdate FROM player_by_keyword WHERE player_keyword = '" + keyword + "'"
+    query = "SELECT player_rankdate FROM player_by_atpid WHERE player_atpwt_id = '" + atp_id + "'"
     ranks = session.execute(query)
 
     for rank in ranks:
         rankdates.append(rank.player_rankdate)
 
     for rankdate in rankdates:
-        update = "UPDATE player_by_keyword "\
+        update = "UPDATE player_by_atpid "\
                  "SET player_te_name = '" + te_names[index] + "', "\
                  "player_te_url = '" + te_urls[index] + "' "\
-                 "WHERE player_keyword = '" + keyword + "' "\
+                 "WHERE player_atpwt_id = '" + atp_id + "' "\
                  "AND player_rankdate = '" + str(rankdate) + "'"
 
         print(update)

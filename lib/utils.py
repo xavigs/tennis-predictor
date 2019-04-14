@@ -36,6 +36,13 @@ def replaceMultiples(mainString, toBeReplaces, newTuple):
 
     return  mainString
 
+def searchDictionary(matrix, s):
+    for key, value in matrix.items():
+        if value == s:
+            return key
+
+    return False
+
 def search_td(matrix, key1, value1, key2, value2):
     for index, dictionary in enumerate(matrix):
         if dictionary[key1] == value1 and dictionary[key2] == value2:

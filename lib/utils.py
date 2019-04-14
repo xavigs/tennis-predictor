@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 # Functions
 def addslashes(s):
     l = ["\\", '"', "'", "\0", ]
@@ -345,3 +347,38 @@ def getStringBetweenBrackets(s):
         start = s.index("(") + 1
         end = s.index(")")
         return s[start:end]
+
+def findGameByPlayers(games, round, player1_te_url, player2_te_url):
+    index = 0
+
+    for game in games[round]:
+        if game['player1_te_url'] == player1_te_url and game['player2_te_url'] == player2_te_url:
+            return index
+
+        index += 1
+
+    return -1
+
+def calcAge(birthdate, today, decimals = False):
+    year, month, day = birthdate.split("-")
+    curr_year, curr_month, curr_day = today.split("-")
+    today = datetime(int(curr_year), int(curr_month), int(curr_day))
+    today = str(datetime.timestamp(today)).split(".")[0]
+
+    years = int(curr_year) - int(year)
+
+    if int(curr_month) < int(month) or int(curr_month) == int(month) and int(curr_day) < int(day):
+        years -= 1
+        last_birthday = str((int(curr_year) - 1)) + "-" + month + "-" + day
+    else:
+        last_birthday = curr_year + "-" + month + "-" + day
+
+    if decimals:
+        return False
+        #days = now - strtotime($lastBirthday)) / 86400;
+        #$decimal = floor($days / 365 * 10) / 10;
+        #return number_format($years + $decimal, 1);
+    else:
+        return years
+
+    return False

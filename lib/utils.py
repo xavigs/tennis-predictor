@@ -382,3 +382,11 @@ def calcAge(birthdate, today, decimals = False):
         return years
 
     return False
+
+def BSReverse(selection):
+    list = []
+
+    for item in selection:
+        list.insert(0, item)
+
+    return list

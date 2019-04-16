@@ -390,3 +390,6 @@ def BSReverse(selection):
         list.insert(0, item)
 
     return list
+
+def around(number, decimals):
+    return round(number, decimals)

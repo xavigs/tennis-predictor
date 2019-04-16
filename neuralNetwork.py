@@ -116,7 +116,7 @@ class NeuralNetwork:
 values = []
 values_predicted = []
 num_epochs = 30000
-nn = NeuralNetwork([26, 8, 2], activation = 'sigmoid')
+nn = NeuralNetwork([26, 10, 1], activation = 'sigmoid')
 games = []
 predict = []
 games_names = ["Isner vs Aliassime"]

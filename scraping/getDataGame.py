@@ -16,12 +16,20 @@ Windows.enable(auto_colors=True, reset_atexit=True)  # Does nothing if not on Wi
 init() # Init colorama
 rounds = {"F": "Finals", "SF": "Semi-Finals", "QF": "Quarter-Finals", "R16": "Round of 16"}
 points = {"challenger": {"F": 125, "SF": 75, "QF": 45, "R16": 25, "1R": 10},
-        "250": {"F": 250, "SF": 150, "QF": 90, "R16": 45, "1R": 20}}
-season = 2014
-id = 1
+        "250": {"F": 250, "SF": 150, "QF": 90, "R16": 45, "1R": 20},
+        #"250": {"F": 250, "SF": 150, "QF": 90, "R16": 45, "2R": 20, "1R": 5},
+        #"500": {"F": 500, "SF": 300, "QF": 180, "R16": 90, "1R": 45},
+        "500": {"F": 500, "SF": 300, "QF": 180, "R16": 90, "2R": 45, "1R": 20},
+        #"1000": {"F": 1000, "SF": 600, "QF": 360, "R16": 180, "3R": 90, "2R": 45, "1R": 25},
+        "1000": {"F": 1000, "SF": 600, "QF": 360, "R16": 180, "2R": 90, "1R": 45},
+        "grandslam": {"F": 2000, "SF": 1200, "QF": 720, "R16": 360, "3R": 180, "2R": 90, "1R": 45}}
+season = 2015
+id = 3987
+test = "halle"
+keyword_atp = "halle"
 tournaments = []
 
-# Get players from DB
+# Open connection
 cluster = Cluster(["127.0.0.1"])
 session = cluster.connect("beast")
 
@@ -30,17 +38,18 @@ query = "SELECT tournament_keyword, tournament_atpwt_id, tournament_category, to
 tournaments_db = session.execute(query)
 
 for tournament_db in tournaments_db:
-    tournament = dict()
-    tournament['keyword'] = tournament_db.tournament_keyword
-    tournament['atpwt_id'] = tournament_db.tournament_atpwt_id
-    tournament['category'] = tournament_db.tournament_category
-    tournament['country'] = tournament_db.tournament_country
-    tournament['end'] = tournament_db.tournament_end
-    tournament['name'] = tournament_db.tournament_name
-    tournament['num_players'] = tournament_db.tournament_num_players
-    tournament['start'] = tournament_db.tournament_start
-    tournament['surface'] = tournament_db.tournament_surface
-    tournaments.append(tournament)
+    if tournament_db.tournament_keyword == keyword_atp:
+        tournament = dict()
+        tournament['keyword'] = tournament_db.tournament_keyword
+        tournament['atpwt_id'] = tournament_db.tournament_atpwt_id
+        tournament['category'] = tournament_db.tournament_category
+        tournament['country'] = tournament_db.tournament_country
+        tournament['end'] = tournament_db.tournament_end
+        tournament['name'] = tournament_db.tournament_name
+        tournament['num_players'] = tournament_db.tournament_num_players
+        tournament['start'] = tournament_db.tournament_start
+        tournament['surface'] = tournament_db.tournament_surface
+        tournaments.append(tournament)
 
 tournaments = sorted(tournaments, key = lambda i: (i['end']))
 
@@ -128,7 +137,7 @@ for tournament in tournaments:
 
     # Get Data from Tennis Explorer
     index = 0
-    url = "https://www.tennisexplorer.com/" + tournament['keyword'] + "/" + str(season) + "/atp-men/"
+    url = "https://www.tennisexplorer.com/" + test + "/" + str(season) + "/atp-men/"
     r = requests.get(url)
     data = r.text
     soup = BeautifulSoup(data, "html.parser")
@@ -141,6 +150,10 @@ for tournament in tournaments:
         if index % 2 == 0:
             # Player 1
             href_player1 = list(game_te.select("a"))[0]['href']
+
+            if href_player1 == "/player/gonzalez-4e1d2/":
+                href_player1 = "/player/gonzalez-aeef1/"
+
             round = list(game_te.select("td"))[1].text
             day = list(game_te.select("td"))[0].text[:5].split(".")
 
@@ -158,7 +171,14 @@ for tournament in tournaments:
         else:
             # Player 2
             href_player2 = list(game_te.select("a"))[0]['href']
-            game_index = utils.findGameByPlayers(games, round, href_player1, href_player2)
+
+            if href_player2 == "/player/gonzalez-4e1d2/":
+                href_player2 = "/player/gonzalez-aeef1/"
+
+            if href_player2 == "/player/ali-mutawa/":
+                game_index = -1
+            else:
+                game_index = utils.findGameByPlayers(games, round, href_player1, href_player2)
 
             if game_index > -1: # Validate players IDs
                 games[round][game_index]['week'] = week
@@ -263,7 +283,11 @@ for tournament in tournaments:
 
                 for index_h2h, row in enumerate(rows):
                     if index_h2h % 2 == 0:
-                        year_precedent = int(list(row.select("td"))[0].text.strip())
+                        try:
+                            year_precedent = int(list(row.select("td"))[0].text.strip())
+                        except ValueError:
+                            break
+
                         tournament_precedent = list(row.select("td"))[1].text.strip()
                         keyword_precedent = list(list(row.select("td"))[1].select("a"))[0]['href'].split("/")[1]
                         round_precedent = list(row.select("td"))[10].text.strip()
@@ -350,7 +374,7 @@ for tournament in tournaments:
 
                                     num_row += 1
                         else:
-                            if year_precedent == season and keyword_precedent == tournament['keyword']:
+                            if year_precedent == season and keyword_precedent == test:
                                 current_found = True
 
                 if games_played == 0:
@@ -395,13 +419,33 @@ for tournament in tournaments:
                     date_3m_timestamp = date_3m_timestamp - 86400 * date_3m.weekday()
                     date_3m = datetime.fromtimestamp(date_3m_timestamp)
 
-                player1_query = "SELECT player_ranking FROM player_by_atpid WHERE player_atpwt_id = '" + games[round][game_index]['player1'] + "' AND player_rankdate = '" + str(date_3m)[:10] + "'"
-                result = session.execute(player1_query)
-                games[round][game_index]['3months1'] = result[0].player_ranking
+                if str(date_3m)[:10] != "2015-03-16":
+                    player1_query = "SELECT player_ranking FROM player_by_atpid WHERE player_atpwt_id = '" + games[round][game_index]['player1'] + "' AND player_rankdate = '" + str(date_3m)[:10] + "'"
+                else:
+                    player1_query = "SELECT player_ranking FROM player_by_atpid WHERE player_atpwt_id = '" + games[round][game_index]['player1'] + "' AND player_rankdate = '2015-03-09'"
 
-                player2_query = "SELECT player_ranking FROM player_by_atpid WHERE player_atpwt_id = '" + games[round][game_index]['player2'] + "' AND player_rankdate = '" + str(date_3m)[:10] + "'"
+                result = session.execute(player1_query)
+                result = list(result)
+
+                if len(result) > 0:
+                    games[round][game_index]['3months1'] = result[0].player_ranking
+                else:
+                    print(player1_query)
+                    games[round][game_index]['3months1'] = 0
+
+                if str(date_3m)[:10] != "2015-03-16":
+                    player2_query = "SELECT player_ranking FROM player_by_atpid WHERE player_atpwt_id = '" + games[round][game_index]['player2'] + "' AND player_rankdate = '" + str(date_3m)[:10] + "'"
+                else:
+                    player2_query = "SELECT player_ranking FROM player_by_atpid WHERE player_atpwt_id = '" + games[round][game_index]['player2'] + "' AND player_rankdate = '2015-03-09'"
+
                 result = session.execute(player2_query)
-                games[round][game_index]['3months2'] = result[0].player_ranking
+                result = list(result)
+
+                if len(result) > 0:
+                    games[round][game_index]['3months2'] = result[0].player_ranking
+                else:
+                    print(player2_query)
+                    games[round][game_index]['3months2'] = 0
 
                 # Surfaces
                 urls = ["https://www.tennisexplorer.com" + games[round][game_index]['player1_te_url'] + "?annual=all",
@@ -463,6 +507,7 @@ for tournament in tournaments:
                         set_def_dates = True
 
                     tournaments_def_points = []
+                    categories_def_points = []
 
                     # Get tournaments from previous year
                     query = "SELECT tournament_keyword, tournament_atpwt_id, tournament_category, tournament_country, tournament_end, tournament_name, tournament_num_players, tournament_start, tournament_surface FROM tournament WHERE tournament_season = " + str(season - 1)
@@ -486,7 +531,17 @@ for tournament in tournaments:
 
                     for tournament_prev in tournaments_prev:
                         if str(start_def_points) <= str(tournament_prev['end']) <= str(end_def_points):
+                            if tournament_prev['keyword'] == "kitzbhel":
+                                tournament_prev['keyword'] = "kitzbuhel"
+
                             tournaments_def_points.append(tournament_prev['keyword'])
+                            categories_def_points.append(tournament_prev['category'])
+
+                    #print(tournaments_def_points)
+                    #print(categories_def_points)
+                    #exit()
+                    tournaments_def_points = ["hertogenbosch", "eastbourne"]
+                    categories_def_points = ["250", "250"]
 
                     # Current year games
                     for game_year in games_year:
@@ -529,10 +584,16 @@ for tournament in tournaments:
                                         wins_career += 1
                                         wins_year += 1
 
-                    games_year = list(soup.select("div#matches-" + str(season - 1) + "-1-data"))[0].select("tr")
+                    try:
+                        games_year = list(soup.select("div#matches-" + str(season - 1) + "-1-data"))[0].select("tr")
+                    except IndexError:
+                        games_year = []
+
                     january_arrived = False
 
                     # Last year games
+                    challenger_found = False
+
                     for game_year in games_year:
                         if "head" not in game_year['class'] and "flags" not in game_year['class']:
                             # It's a game
@@ -577,60 +638,132 @@ for tournament in tournaments:
                                 current_tournament_keyword = list(game_year.select("a"))[0]['href'].split("/")[1]
 
                                 if current_tournament_keyword in tournaments_def_points:
-                                    last_round = list(game_year.find_next_sibling().select("td"))[3].text.strip()
-                                    round_found = False
-                                    has_won_some_game = False
+                                    index_category = tournaments_def_points.index(current_tournament_keyword)
+                                    current_category = categories_def_points[index_category]
 
-                                    for key, content in points[game['category']].items():
-                                        if round_found:
-                                            has_won_some_game = True
-                                            last_round = key
-                                            break
+                                    last_winner = list(list(game_year.find_next_sibling().select("td"))[2].select("a"))[0]['href']
 
-                                        if key == last_round:
-                                            round_found = True
-
-                                    if index_surface == 0:
-                                        if has_won_some_game:
-                                            pts_def1 = points[game['category']][last_round]
-                                        else:
-                                            pts_def1 = 0
-
-                                        games[round][game_index]['pts_def1'] = int(pts_def1)
+                                    if last_winner == games[round][game_index]['player' + str(index_surface + 1) + '_te_url']:
+                                        is_champion = True
                                     else:
-                                        if has_won_some_game:
-                                            pts_def2 = points[game['category']][last_round]
+                                        is_champion = False
+
+                                    if is_champion:
+                                        if index_surface == 0:
+                                            pts_def1 = points[current_category]['F']
+                                            games[round][game_index]['pts_def1'] = points[current_category]['F']
                                         else:
-                                            pts_def2 = 0
-
-                                        games[round][game_index]['pts_def2'] = int(pts_def2)
-                                elif "challenger" in current_tournament_keyword:
-                                    last_game_date = list(game_year.find_next_sibling().select("td"))[0].text.strip().split(".")
-
-                                    if january_arrived and int(last_game_date[1]) == 12:
-                                        last_game_date = str(season - 2) + "-" + last_game_date[1] + "-" + last_game_date[0]
+                                            pts_def2 = points[current_category]['F']
+                                            games[round][game_index]['pts_def2'] = points[current_category]['F']
                                     else:
-                                        last_game_date = str(season - 1) + "-" + last_game_date[1] + "-" + last_game_date[0]
-
-                                    if str(start_def_points) <= last_game_date <= str(end_def_points):
                                         last_round = list(game_year.find_next_sibling().select("td"))[3].text.strip()
+                                        round_found = False
+                                        has_won_some_game = False
+
+                                        for key, content in points[current_category].items():
+                                            if round_found:
+                                                has_won_some_game = True
+                                                last_round = key
+                                                break
+
+                                            if key == last_round:
+                                                round_found = True
 
                                         if index_surface == 0:
-                                            pts_def1 = points['challenger'][last_round]
+                                            if has_won_some_game:
+                                                pts_def1 = points[current_category][last_round]
+                                            else:
+                                                pts_def1 = 0
+
                                             games[round][game_index]['pts_def1'] = int(pts_def1)
                                         else:
-                                            pts_def2 = points['challenger'][last_round]
+                                            if has_won_some_game:
+                                                pts_def2 = points[current_category][last_round]
+                                            else:
+                                                pts_def2 = 0
+
                                             games[round][game_index]['pts_def2'] = int(pts_def2)
+                                elif "challenger" in current_tournament_keyword:
+                                    if not challenger_found:
+                                        last_game_date = list(game_year.find_next_sibling().select("td"))[0].text.strip().split(".")
+                                        last_winner = list(list(game_year.find_next_sibling().select("td"))[2].select("a"))[0]['href']
+
+                                        if last_winner == games[round][game_index]['player' + str(index_surface + 1) + '_te_url']:
+                                            is_champion = True
+                                        else:
+                                            is_champion = False
+
+                                        if january_arrived and int(last_game_date[1]) == 12:
+                                            last_game_date = str(season - 2) + "-" + last_game_date[1] + "-" + last_game_date[0]
+                                        else:
+                                            last_game_date = str(season - 1) + "-" + last_game_date[1] + "-" + last_game_date[0]
+
+                                        if str(start_def_points) <= last_game_date <= str(end_def_points):
+                                            challenger_found = True
+                                            print(games[round][game_index]['player' + str(index_surface + 1) + '_te_name'])
+                                            print(is_champion)
+
+                                            if is_champion:
+                                                if index_surface == 0:
+                                                    pts_def1 = points['challenger']['F']
+                                                    print(pts_def1)
+                                                    games[round][game_index]['pts_def1'] = points['challenger']['F']
+                                                else:
+                                                    pts_def2 = points['challenger']['F']
+                                                    print(pts_def2)
+                                                    games[round][game_index]['pts_def2'] = points['challenger']['F']
+                                            else:
+                                                last_round = list(game_year.find_next_sibling().select("td"))[3].text.strip()
+                                                round_found = False
+                                                has_won_some_game = False
+
+                                                for key, content in points['challenger'].items():
+                                                    if round_found:
+                                                        has_won_some_game = True
+                                                        last_round = key
+                                                        break
+
+                                                    if key == last_round:
+                                                        round_found = True
+
+                                                print(last_round)
+
+                                                if "Q-" not in last_round:
+                                                    if index_surface == 0:
+                                                        if has_won_some_game:
+                                                            pts_def1 = points['challenger'][last_round]
+                                                        else:
+                                                            pts_def1 = 0
+
+                                                        print(pts_def1)
+                                                        games[round][game_index]['pts_def1'] = int(pts_def1)
+                                                    else:
+                                                        if has_won_some_game:
+                                                            pts_def2 = points['challenger'][last_round]
+                                                        else:
+                                                            pts_def2 = 0
+
+                                                        print(pts_def2)
+                                                        games[round][game_index]['pts_def2'] = int(pts_def2)
 
 
-                    games[round][game_index]['surface' + str(index_surface + 1)] = utils.around(wins_career * 100 / games_played_career, 1)
-                    games[round][game_index]['surface_year' + str(index_surface + 1)] = utils.around(wins_year * 100 / games_played_year, 1)
+                    if games_played_career > 0:
+                        games[round][game_index]['surface' + str(index_surface + 1)] = utils.around(wins_career * 100 / games_played_career, 1)
+                    else:
+                        games[round][game_index]['surface' + str(index_surface + 1)] = -1
+
+                    if games_played_year > 0:
+                        games[round][game_index]['surface_year' + str(index_surface + 1)] = utils.around(wins_year * 100 / games_played_year, 1)
+                    else:
+                        games[round][game_index]['surface_year' + str(index_surface + 1)] = -1
+
                     games[round][game_index]['gp1m' + str(index_surface + 1)] = played_1m
                     games[round][game_index]['gp3m' + str(index_surface + 1)] = played_3m
                     games[round][game_index]['gp6m' + str(index_surface + 1)] = played_6m
 
                     if last10_found < 10:
-                        print(Style.BRIGHT + Fore.RED + "Al tanto, l'intrèpid " + games[round][game_index]['player' + str(index_surface + 1) + "_te_name"] + " no ha jugat 10 partits!")
+                        print(Style.BRIGHT + Fore.RED + "Al tanto, l'intrèpid " + games[round][game_index]['player' + str(index_surface + 1) + "_te_name"] + " no ha jugat 10 partits!" + Style.RESET_ALL)
+                        games[round][game_index]['10streak' + str(index_surface + 1)] = -1
                     else:
                         games[round][game_index]['10streak' + str(index_surface + 1)] = utils.around(last10_wins * 10, 1)
 
@@ -651,59 +784,64 @@ for tournament in tournaments:
     for round, item in games.items():
         if round != current_round:
             current_round = round
-            table_games.append([Color('{bgblue}{autowhite}Round: ' + round + '{/autowhite}{/bgblue}'), '', '', '', '', '', '', '', ''])
+            table_games.append([Color('{bgblue}{autowhite}Round: ' + round + '{/autowhite}{/bgblue}'), '', '', '', '', '', '', ''])
 
         for game in item:
-            insert = "INSERT INTO game_train ("
-            fields = []
-            values = []
-            player1_name = game['player1_keyword'].split("-")[1].capitalize()
-            player2_name = game['player2_keyword'].split("-")[1].capitalize()
-            row_fields = [Color('{autored}▸ {/autored}{autogreen}' + player1_name + " - " + player2_name + '{/autogreen}')]
-            row_values = ['']
-            printed_fields = 1
+            if "player2_keyword" in game:
+                insert = "INSERT INTO game_train ("
+                fields = []
+                values = []
+                player1_name = game['player1_keyword'].split("-")[1].capitalize()
+                player2_name = game['player2_keyword'].split("-")[1].capitalize()
+                row_fields = [Color('{autored}▸ {/autored}{autogreen}' + player1_name + " - " + player2_name + '{/autogreen}')]
+                row_values = ['']
+                printed_fields = 1
 
-            for field, value in game.items():
-                if field not in not_db_fields:
-                    fields.append("game_" + field)
+                for field, value in game.items():
+                    if field not in not_db_fields:
+                        fields.append("game_" + field)
 
-                    if field in text_fields:
-                        values.append("'" + value + "'")
-                    else:
-                        values.append(value)
+                        if field in text_fields:
+                            values.append("'" + value + "'")
+                        else:
+                            values.append(value)
 
-                if field not in hidden_fields:
-                    if printed_fields == 0:
-                        row_fields = ['']
-                        row_values = ['']
+                    if field not in hidden_fields:
+                        if printed_fields == 0:
+                            row_fields = ['']
+                            row_values = ['']
+                            printed_fields += 1
+
+                        row_fields.append(Color('{autored}' + field + '{/autored}'))
+                        row_values.append(value)
                         printed_fields += 1
 
-                    row_fields.append(Color('{autored}' + field + '{/autored}'))
-                    row_values.append(value)
-                    printed_fields += 1
+                        if printed_fields == 8:
+                            table_games.append(row_fields)
+                            table_games.append(row_values)
+                            printed_fields = 0
 
-                    if printed_fields == 9:
-                        table_games.append(row_fields)
-                        table_games.append(row_values)
-                        printed_fields = 0
+                insert += ', '.join([str(i) for i in fields]) + ") VALUES (" + ', '.join([str(i) for i in values]) + ")"
 
-            insert += ', '.join([str(i) for i in fields]) + ") VALUES (" + ', '.join([str(i) for i in values]) + ")"
-            print(insert)
-            session.execute(insert)
+                if "odd1" in game and game['odd1'].strip() != "":
+                    print(insert)
+                    session.execute(insert)
+                else:
+                    print(Color('{autored}' + insert + '{/autored}'))
 
-            if printed_fields > 0:
-                while printed_fields < 9:
-                    row_fields.append('')
-                    row_values.append('')
-                    printed_fields += 1
+                if printed_fields > 0:
+                    while printed_fields < 8:
+                        row_fields.append('')
+                        row_values.append('')
+                        printed_fields += 1
 
-                table_games.append(row_fields)
-                table_games.append(row_values)
+                    table_games.append(row_fields)
+                    table_games.append(row_values)
 
     table_instance = SingleTable(table_games, Color('{autoyellow} ' + tournament['name'] + ' ' + str(season) + ' (' + str(tournament['num_players']) + ' players) {/autoyellow}'))
     table_instance.inner_heading_row_border = False
     table_instance.inner_row_border = True
-    table_instance.justify_columns = {0: 'left', 1: 'center', 2: 'center', 3: 'center', 4: 'center', 5: 'center', 6: 'center', 7: 'center', 8: 'center'}
+    table_instance.justify_columns = {0: 'left', 1: 'center', 2: 'center', 3: 'center', 4: 'center', 5: 'center', 6: 'center', 7: 'center'}
     print("\n" + table_instance.table)
     break
 
